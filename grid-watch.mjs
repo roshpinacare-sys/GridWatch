@@ -11,6 +11,7 @@
 import { writeFileSync } from 'node:fs';
 
 const TOKEN = process.env.GH_PAT || '';
+const DRYRUN = process.env.GW_DRYRUN === '1';
 const ORG = 'roshpinacare-sys';
 const REPO = 'GridWatch';
 const NOW = new Date().toISOString();
@@ -175,7 +176,7 @@ for (const repo of fleet) {
   const ambers = wfRows.filter(w => w.health === 'amber');
   const repoHealth = reds.length ? 'red' : ambers.length ? 'amber' : 'green';
   repoRows.push({
-    name: repo.name, private: repo.private, pushedAt: repo.pushed_at, health: repoHealth,
+    name: repo.name, private: repo.private, pushedAt: repo.pushedAt, health: repoHealth,
     counts: {
       workflows: wfRows.length,
       green: wfRows.filter(w => w.health === 'ok').length,
@@ -206,7 +207,7 @@ for (const repo of fleet) {
           alerts.push({ key: rk, level: 'red', repo: repo.name, workflow: w.name, class: w.class, note: `${w.note}; auto-retry exhausted (${prevRetries}) — needs engineering triage`, at: NOW });
         continue;
       }
-      const d = await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: repo.defaultBranch }) });
+      const d = DRYRUN ? { status: 204 } : await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: repo.defaultBranch }) });
       if (d.status === 204) {
         remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'workflow_dispatch retry', class: w.class, attempt: prevRetries + 1 });
         prev.autoRetries[rk] = prevRetries + 1;
@@ -216,7 +217,7 @@ for (const repo of fleet) {
       await sleep(120);
     }
     if (w.class === 'dormant') {
-      const e = await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/enable`, { method: 'PUT' });
+      const e = DRYRUN ? { status: 204 } : await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/enable`, { method: 'PUT' });
       remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: e.status === 204 ? 're-enabled (was disabled_inactivity)' : `enable-failed http=${e.status}` });
       await sleep(120);
     }
@@ -259,7 +260,8 @@ const payload = {
 if (alerts.length) {
   const text = `[grid-watch] אדומים חדשים בצי (${alerts.length}): ${alerts.map(a => `${a.repo}${a.workflow ? '/' + a.workflow : ''} — ${a.class}`).join('; ')}. ריפוי-עצמי הופעל כשניתן; ראה GridWatch/state/fleet-health.json`;
   const inboxPath = `/repos/${ORG}/FleetHQ/contents/office/state/operator-inbox.jsonl`;
-  const cur = await gh(inboxPath);
+  if (DRYRUN) { console.log('[dryrun] would alert inbox:', text.slice(0, 120)); }
+  const cur = DRYRUN ? { ok: false } : await gh(inboxPath);
   if (cur.ok) {
     const curTxt = Buffer.from(cur.data.content || '', 'base64').toString().trimEnd();
     const { createHash } = await import('node:crypto');
@@ -274,6 +276,11 @@ if (alerts.length) {
 
 // ---------- commit state (contents API, 409-safe) ----------
 const content = Buffer.from(JSON.stringify(payload, null, 1)).toString('base64');
+if (DRYRUN) {
+  writeFileSync('/tmp/gw-dryrun-state.json', JSON.stringify(payload, null, 1));
+  console.log('[dryrun] state written to /tmp/gw-dryrun-state.json; repos:', payload.totals.repos, 'sample:', JSON.stringify(payload.repos[0]).slice(0, 220));
+  process.exit(0);
+}
 const putBody = { message: `grid-watch: fleet health @ ${NOW}`, content };
 if (prevSha) putBody.sha = prevSha;
 const put = await gh(`/repos/${ORG}/${REPO}/contents/state/fleet-health.json`, { method: 'PUT', body: JSON.stringify(putBody) });
