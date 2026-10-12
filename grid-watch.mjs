@@ -35,7 +35,7 @@ const ageMin = (ts) => { const a = ageMs(ts); return a == null ? null : Math.rou
 const repos = [];
 let page = 1;
 for (;;) {
-  const r = await gh(`/users/${ORG}/repos?per_page=100&page=${page}&sort=pushed`);
+  const r = await gh(`/user/repos?per_page=100&page=${page}&sort=pushed&type=owner&affiliation=owner`);
   if (!r.ok) { console.error('repos fetch failed', r.status); break; }
   repos.push(...r.data);
   if (r.data.length < 100) break;
@@ -121,15 +121,17 @@ async function classifyWorkflow(repo, wf) {
   else if (streak >= 2) {
     health = 'red'; cls = 'failing'; note = `${streak} consecutive failures`;
     // billing probe: check annotations of the latest failed run
-    const cr = await gh(`${last.check_suite_url.replace('https://api.github.com', '')}/check-runs`);
+    if (!last.check_suite_url) { /* no suite url — skip probe */ } else
+    { const cr = await gh(`${last.check_suite_url.replace('https://api.github.com', '')}/check-runs`);
     for (const c of (cr.ok ? (cr.data.check_runs || []) : [])) {
+      if (!c.annotations_url) continue;
       const ann = await gh(c.annotations_url.replace('https://api.github.com', ''));
       for (const a of (ann.ok ? (ann.data || []) : [])) {
         const msg = a.message || '';
         if (/payments have failed|spending limit/i.test(msg)) { health = 'red'; cls = 'billing-blocked'; note = 'GitHub billing: jobs not starting'; }
       }
       if (cls === 'billing-blocked') break;
-    }
+    } }
   }
   else if (streak === 1) { health = 'amber'; cls = 'flaky'; note = 'last run failed (earlier succeeded)'; }
 
