@@ -78,13 +78,13 @@ for (const repo of repos) {
   await sleep(60);
 }
 
-// ---------- previous state (cron cache + red diff + retry caps) ----------
+// ---------- previous state (cron cache + red diff + retry caps + visibility diff) ----------
 let prev = { cronCache: {}, reds: [], autoRetries: {} };
 const prevRes = await gh(`/repos/${ORG}/${REPO}/contents/state/fleet-health.json`);
 if (prevRes.ok && prevRes.data?.content) {
   try {
     const j = JSON.parse(Buffer.from(prevRes.data.content, 'base64').toString());
-    prev = { cronCache: j.cronCache || {}, reds: (j.repos || []).filter(r => r.health === 'red').map(r => r.name), autoRetries: j.autoRetries || {} };
+    prev = { cronCache: j.cronCache || {}, reds: (j.repos || []).filter(r => r.health === 'red').map(r => r.name), autoRetries: j.autoRetries || {}, visibility: Object.fromEntries((j.repos || []).map(r => [r.name, r.private])) };
   } catch {}
 }
 const prevSha = prevRes.ok ? prevRes.data.sha : null;
@@ -230,6 +230,10 @@ for (const repo of fleet) {
       await sleep(120);
     }
   }
+  // visibility-flip law: a repo that was private last cycle and is public now = red alert (custody exposure)
+  if (prev.visibility && prev.visibility[repo.name] === true && repo.private === false) {
+    alerts.push({ key: `visibility::${repo.name}`, level: 'red', repo: repo.name, workflow: null, class: 'visibility-flip', note: 'הריפו עבר מפרטי לציבורי בין-מחזורים — סיכון-חשיפת-סודות; דרוש סריקת-gitleaks מיידית ואישור-בעלים', at: NOW });
+  }
   const rHealth = repoHealth === 'red' ? 'red' : repoHealth;
   if (rHealth === 'red' && !prev.reds.includes(repo.name)) {
     alerts.push({ key: `repo::${repo.name}`, level: 'red', repo: repo.name, workflow: null, class: 'repo-red', note: reds.map(w => `${w.name}: ${w.note}`).join(' | ').slice(0, 400), at: NOW });
@@ -238,6 +242,10 @@ for (const repo of fleet) {
 
 // autoRetries decay: entries older than ~6h reset. Cheap decay: keep map small.
 if (Object.keys(prev.autoRetries).length > 400) prev.autoRetries = {};
+
+// ---------- SENSE 3: API quota ----------
+const rl = await gh('/rate_limit');
+const quota = rl.ok && rl.data?.resources?.core ? { limit: rl.data.resources.core.limit, remaining: rl.data.resources.core.remaining, resetAt: new Date(rl.data.resources.core.reset * 1000).toISOString() } : null;
 
 // ---------- RECORD: fleet-health.json ----------
 const payload = {
@@ -260,6 +268,7 @@ const payload = {
   })),
   alerts,
   remediations,
+  apiQuota: quota,
   cronCache,
   autoRetries: prev.autoRetries,
 };
