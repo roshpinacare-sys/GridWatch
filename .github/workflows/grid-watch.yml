@@ -1,0 +1,26 @@
+name: grid-watch
+# The fleet's control plane: every 30 minutes — SENSE every repo/workflow/run,
+# DECIDE health classes, ACT within the autonomy envelope (auto-retry, re-enable),
+# RECORD the single public truth file (state/fleet-health.json).
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: grid-watch
+  cancel-in-progress: false
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: SENSE -> DECIDE -> ACT -> RECORD
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: node grid-watch.mjs
