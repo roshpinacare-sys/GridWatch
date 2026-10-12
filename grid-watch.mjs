@@ -144,7 +144,11 @@ async function classifyWorkflow(repo, wf) {
       if (cls === 'billing-blocked') break;
     } }
   }
-  else if (streak === 1) { health = 'amber'; cls = 'flaky'; note = 'last run failed (earlier succeeded)'; }
+  else if (streak === 1) {
+    const durS = last.updated_at ? Math.round((Date.parse(last.updated_at) - Date.parse(last.created_at)) / 1000) : null;
+    health = 'amber'; cls = 'flaky'; note = 'last run failed (earlier succeeded)';
+    if (durS != null && durS < 30) { health = 'red'; cls = 'broken-workflow'; note = `fails instantly (${durS}s, zero steps executed) — config/code defect, retry is noise`; }
+  }
 
   const cadenceMin = cronMin(cron);
   if (health === 'ok' && cadenceMin) {
@@ -162,6 +166,7 @@ async function classifyWorkflow(repo, wf) {
 
 const alerts = [];
 const remediations = [];
+let dispatchBudget = 25; // per-cycle cap
 const repoRows = [];
 let wfTotals = { green: 0, amber: 0, red: 0 };
 
@@ -187,9 +192,11 @@ for (const repo of fleet) {
 
   // ---------- ACT (envelope) ----------
   for (const w of wfRows) {
+    if (dispatchBudget <= 0) break; // per-cycle stampede guard (T-w: 79 dispatches in one cycle is self-DoS)
     const rk = `${repo.name}::${w.name}`;
     if ((w.class === 'failing' || w.class === 'flaky') && w.state === 'active') {
       if (w.class === 'billing-blocked') continue;
+      if (w.class === 'billing-blocked' || w.class === 'broken-workflow') continue; // owner-level / engineering-level, not retry-able
       if (!w.dispatchable) {
         if (!prev.autoRetries[rk]) {
           remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'not-dispatchable (no workflow_dispatch trigger) — cannot auto-heal; needs engineering change', class: w.class });
@@ -209,6 +216,7 @@ for (const repo of fleet) {
       }
       const d = DRYRUN ? { status: 204 } : await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: repo.defaultBranch }) });
       if (d.status === 204) {
+        dispatchBudget--;
         remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'workflow_dispatch retry', class: w.class, attempt: prevRetries + 1 });
         prev.autoRetries[rk] = prevRetries + 1;
       } else {
