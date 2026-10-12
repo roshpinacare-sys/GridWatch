@@ -1,0 +1,83 @@
+name: flow-map
+# ═══════════════════════════════════════════════════════════════════════════
+# FLOW-MAP (compute lane, public cloud) — T-w architectural migration.
+# ───────────────────────────────────────────────────────────────────────────
+# MEASURED 2026-10-12: GitHub Actions minutes wall hit the account — ALL
+# private-repo workflows fail instantly (zero steps, "payments have failed"
+# measured on treasury-ladder), while public repos run FREE and unaffected.
+# The organism's flow-map generator lived in a private repo → the networks
+# grid went stale → "the grid feels dead".
+#
+# LAW: compute in public repos (unlimited free minutes) — custody stays in
+# private repos (data only). The generator measures the private Sandbox,
+# commits the map back, and the owner UI reads it exactly as before.
+# ═══════════════════════════════════════════════════════════════════════════
+on:
+  schedule:
+    - cron: "11,41 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: flow-map
+  cancel-in-progress: false
+jobs:
+  flow-map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: checkout the private Sandbox (compute source)
+        uses: actions/checkout@v4
+        with:
+          repository: roshpinacare-sys/Sandbox
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: measure the organism flow (who feeds whom — measured)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        run: node engine/flow-map.mjs
+
+      - name: leak-scan (fail-closed)
+        if: always()
+        run: |
+          [ -f ops/flow/flow-map.md ] && node engine/leak-scan.mjs ops/flow/flow-map.md
+          [ -f ops/flow/flow-map.json ] && node engine/leak-scan.mjs ops/flow/flow-map.json
+
+      - name: commit flow map back to the private repo (rebase-safe ×3)
+        if: always()
+        run: |
+          git config user.name "sovereign-flow"
+          git config user.email "sovereign-flow@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${{ secrets.GH_PAT }}@github.com/roshpinacare-sys/Sandbox"
+          git add ops/flow
+          if git diff --cached --quiet; then
+            echo "flow map unchanged - nothing to commit"
+            exit 0
+          fi
+          git commit -m "[flow-map·public-lane] flow map: $(date -u +%FT%TZ)"
+          OK=0
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push origin main; then OK=1; echo "push ok (attempt $i)"; break; fi
+            git rebase --abort 2>/dev/null || true
+            sleep 5
+          done
+          [ "$OK" = "1" ] || { echo "flow-map push failed after 3 attempts — honest failure"; exit 1; }
+
+      - name: verdict gate — red unless the map landed
+        if: always()
+        run: |
+          test -f ops/flow/flow-map.json || { echo "FAIL: flow-map.json missing"; exit 1; }
+          python3 - << 'PYEOF'
+          import json, sys
+          m = json.load(open("ops/flow/flow-map.json"))
+          s = m["summary"]
+          print(f"FLOW verdict: nodes={s['nodes']} edges={s['edges']} integrated={s['integrated']} plane-internal={s['planeInternal']} orphans={s['orphans']} ghosts={s['ghosts']} stale={s['stale']} density={s['flowDensity']}")
+          fails = [a for a in m["alerts"] if a.get("severity") == "fail"]
+          for f in fails: print("FAIL:", f["detail"])
+          sys.exit(1) if fails else sys.exit(0)
+          PYEOF
