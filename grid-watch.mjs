@@ -95,10 +95,10 @@ async function cronOf(repoName, path, sha) {
   const hit = prev.cronCache[key];
   if (hit && hit.sha === sha) { cronCache[key] = hit; return hit.cron; }
   const r = await gh(`/repos/${ORG}/${repoName}/contents/${encodeURIComponent(path)}`);
-  if (!r.ok) { const v = { sha, cron: null }; cronCache[key] = v; return null; }
+  if (!r.ok) { const v = { sha, cron: null, dispatchable: true }; cronCache[key] = v; return null; }
   const txt = Buffer.from(r.data.content || '', 'base64').toString();
   const m = txt.match(/cron:\s*['"]?([^'"\n]+)/);
-  const v = { sha, cron: m ? m[1].trim() : null };
+  const v = { sha, cron: m ? m[1].trim() : null, dispatchable: /workflow_dispatch/.test(txt) };
   cronCache[key] = v;
   return v.cron;
 }
@@ -118,7 +118,9 @@ function cronMin(cron) {
 async function classifyWorkflow(repo, wf) {
   const runs = repo.byWf.get(wf.id) || [];
   const last = runs[0] || null;
-  const cron = repo.wfList && last?.path ? await cronOf(repo.name, last.path, repo.ymlShas[last.path]) : null;
+  const cronKey = last?.path ? `${repo.name}::${last.path}` : null;
+  const cron = last?.path ? await cronOf(repo.name, last.path, repo.ymlShas[last.path]) : null;
+  const dispatchable = cronKey && cronCache[cronKey] ? cronCache[cronKey].dispatchable !== false : false;
   let streak = 0;
   for (const r of runs) { if (r.conclusion === 'failure' || r.conclusion === 'startup_failure') streak++; else break; }
 
@@ -153,7 +155,7 @@ async function classifyWorkflow(repo, wf) {
     id: wf.id, name: wf.name, state: wf.state, cron: cron || null,
     health, class: cls, note,
     streak, lastRunAt: last?.created_at || null, lastConclusion: last?.conclusion || null,
-    lastEvent: last?.event || null, dispatchable: true,
+    lastEvent: last?.event || null, dispatchable,
   };
 }
 
@@ -187,6 +189,15 @@ for (const repo of fleet) {
     const rk = `${repo.name}::${w.name}`;
     if ((w.class === 'failing' || w.class === 'flaky') && w.state === 'active') {
       if (w.class === 'billing-blocked') continue;
+      if (!w.dispatchable) {
+        if (!prev.autoRetries[rk]) {
+          remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'not-dispatchable (no workflow_dispatch trigger) — cannot auto-heal; needs engineering change', class: w.class });
+          prev.autoRetries[rk] = 99; // park it — never retry-spam an un-dispatchable workflow
+        }
+        if (w.health === 'red' && !alerts.find(a => a.key === rk))
+          alerts.push({ key: rk, level: 'red', repo: repo.name, workflow: w.name, class: w.class, note: `${w.note}; workflow ללא workflow_dispatch — ריפוי-עצמי בלתי-אפשרי עד שינוי-קוד`, at: NOW });
+        continue;
+      }
       const recent = ageMin(w.lastRunAt);
       if (recent != null && recent < 12) continue; // a run is already in flight — no pileup
       const prevRetries = prev.autoRetries[rk] || 0;
