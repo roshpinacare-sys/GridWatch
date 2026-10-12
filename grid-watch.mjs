@@ -35,7 +35,7 @@ const ageMin = (ts) => { const a = ageMs(ts); return a == null ? null : Math.rou
 const repos = [];
 let page = 1;
 for (;;) {
-  const r = await gh(`/user/repos?per_page=100&page=${page}&sort=pushed&type=owner&affiliation=owner`);
+  const r = await gh(`/user/repos?per_page=100&page=${page}&sort=pushed&affiliation=owner`);
   if (!r.ok) { console.error('repos fetch failed', r.status); break; }
   repos.push(...r.data);
   if (r.data.length < 100) break;
