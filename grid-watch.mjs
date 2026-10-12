@@ -46,12 +46,13 @@ console.log(`repos: ${repos.length}`);
 // ---------- SENSE 2: per-repo workflows + runs (grouped client-side) ----------
 const fleet = [];
 for (const repo of repos) {
-  const [wfs, runsR] = await Promise.all([
+  const [wfs, runsR1, runsR2] = await Promise.all([
     gh(`/repos/${ORG}/${repo.name}/actions/workflows?per_page=100`),
-    gh(`/repos/${ORG}/${repo.name}/actions/runs?per_page=100&sort=created&direction=desc`),
+    gh(`/repos/${ORG}/${repo.name}/actions/runs?per_page=100&page=1&sort=created&direction=desc`),
+    gh(`/repos/${ORG}/${repo.name}/actions/runs?per_page=100&page=2&sort=created&direction=desc`),
   ]);
   const wfList = wfs.ok ? (wfs.data.workflows || []) : [];
-  const runList = runsR.ok ? (runsR.data.workflow_runs || []) : [];
+  const runList = [...(runsR1.ok ? (runsR1.data.workflow_runs || []) : []), ...(runsR2.ok ? (runsR2.data.workflow_runs || []) : [])];
   const byWf = new Map();
   for (const run of runList) {
     if (!byWf.has(run.workflow_id)) byWf.set(run.workflow_id, []);
@@ -62,6 +63,13 @@ for (const repo of repos) {
   const ymlShas = {};
   if (dir.ok) for (const f of (dir.data || [])) if (/\.ya?ml$/.test(f.name)) ymlShas[f.path] = f.sha;
 
+  // per-workflow fallback for workflows missing from repo-level recent runs (complete coverage)
+  const seen = new Set([...byWf.keys()]);
+  for (const wf of wfList) if (!seen.has(wf.id)) {
+    const r = await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${wf.id}/runs?per_page=6`);
+    if (r.ok && r.data?.workflow_runs?.length) byWf.set(wf.id, r.data.workflow_runs);
+    await sleep(40);
+  }
   fleet.push({
     name: repo.name, private: repo.private, pushedAt: repo.pushed_at,
     defaultBranch: repo.default_branch, wfList, byWf, ymlShas,
@@ -259,6 +267,7 @@ const putBody = { message: `grid-watch: fleet health @ ${NOW}`, content };
 if (prevSha) putBody.sha = prevSha;
 const put = await gh(`/repos/${ORG}/${REPO}/contents/state/fleet-health.json`, { method: 'PUT', body: JSON.stringify(putBody) });
 console.log('state put:', put.status);
+const putSha = put.ok ? put.data?.commit?.sha : null;
 if (put.status === 409) {
   // someone pushed meanwhile — re-fetch sha and retry once
   const fresh = await gh(`/repos/${ORG}/${REPO}/contents/state/fleet-health.json`);
@@ -268,9 +277,14 @@ if (put.status === 409) {
   }
 }
 
-// ---------- double-pass verify ----------
-const verify = await gh(`/repos/${ORG}/${REPO}/contents/state/fleet-health.json?ref=${Date.now()}`);
-const verified = verify.ok && verify.data?.content && JSON.parse(Buffer.from(verify.data.content, 'base64').toString()).generatedAt === NOW;
+// ---------- double-pass verify (retry against the commit we just created) ----------
+let verified = false;
+for (let i = 0; i < 4 && !verified; i++) {
+  await sleep(2500);
+  const verify = await gh(`/repos/${ORG}/${REPO}/contents/state/fleet-health.json${putSha ? `?ref=${putSha}` : ''}`);
+  verified = verify.ok && verify.data?.content && (() => { try { return JSON.parse(Buffer.from(verify.data.content, 'base64').toString()).generatedAt === NOW; } catch { return false; } })();
+  console.log('verify pass', i + 1, verified);
+}
 
 const summary = [
   `## GridWatch @ ${NOW}`,
