@@ -51,8 +51,8 @@ jobs:
       - name: commit flow map back to the private repo (rebase-safe ×3)
         if: always()
         run: |
-          git config user.name "sovereign-flow"
-          git config user.email "sovereign-flow@users.noreply.github.com"
+          git config user.name "roshpinacare-sys"
+          git config user.email "326012154+roshpinacare-sys@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${{ secrets.GH_PAT }}@github.com/roshpinacare-sys/Sandbox"
           git add ops/flow
           if git diff --cached --quiet; then
