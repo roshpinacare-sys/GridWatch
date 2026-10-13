@@ -9,6 +9,7 @@
 //
 // No secrets in outputs. Token env: GH_PAT. Zero deps.
 import { writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 const TOKEN = process.env.GH_PAT || '';
 const DRYRUN = process.env.GW_DRYRUN === '1';
@@ -17,6 +18,33 @@ const REPO = 'GridWatch';
 const NOW = new Date().toISOString();
 const H = { Authorization: `Bearer ${TOKEN}`, Accept: 'application/vnd.github+json', 'User-Agent': 'gridwatch-v1' };
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+// 26-a REDACTION LAW: private repo names must never leave the estate — not in
+// state/fleet-health.json, not in the FleetHQ operator-inbox, not in the public
+// Actions step summary. Every private repo is replaced by a stable, non-reversible
+// label `private-<8hex of sha256(name)>`; health value (health classes, counts,
+// ages, streaks) survives per entry. Public repo names stay as-is (already public).
+const PRIV_LABELS = new Map(); // private repo name -> private-<8hex>
+let REDACT_ALL = []; // merged public+private, longest-name-first: a public name that CONTAINS a private name (roshpinacare-sys ⊃ roshpina) is shielded first; a private name that CONTAINS a public one (SovereignConsole ⊃ Console) is redacted first
+const labelFor = (name) => 'private-' + createHash('sha256').update(name).digest('hex').slice(0, 8);
+const labelOf = (name) => PRIV_LABELS.get(name) || name;
+const redactStr = (s) => {
+  let out = s, i = 0;
+  const stash = [];
+  for (const [name, kind, label] of REDACT_ALL) {
+    if (!out.includes(name)) continue;
+    if (kind === 1) { const tok = `\u0001pub${i}\u0001`; stash.push([tok, name]); out = out.split(name).join(tok); i++; }
+    else out = out.split(name).join(label);
+  }
+  for (const [tok, p] of stash) out = out.split(tok).join(p);
+  return out;
+};
+const redactDeep = (x) => {
+  if (typeof x === 'string') return redactStr(x);
+  if (Array.isArray(x)) return x.map(redactDeep);
+  if (x && typeof x === 'object') { const o = {}; for (const k of Object.keys(x)) o[redactStr(k)] = redactDeep(x[k]); return o; }
+  return x;
+};
 
 const gh = async (path, opts = {}, tries = 2) => {
   for (let i = 0; i < tries; i++) {
@@ -43,6 +71,12 @@ for (;;) {
   page++;
 }
 console.log(`repos: ${repos.length}`);
+for (const r of repos) if (r.private) PRIV_LABELS.set(r.name, labelFor(r.name));
+REDACT_ALL = [
+  ...[...PRIV_LABELS.entries()].map(([n, l]) => [n, 0, l]),
+  ...repos.filter(r => !r.private).map(r => [r.name, 1, null]),
+].sort((a, b) => b[0].length - a[0].length);
+console.log(`private repos redacted to labels: ${PRIV_LABELS.size}`);
 
 // ---------- SENSE 2: per-repo workflows + runs (grouped client-side) ----------
 const fleet = [];
@@ -92,7 +126,7 @@ const prevSha = prevRes.ok ? prevRes.data.sha : null;
 // ---------- cron via sha-cached yml fetch ----------
 const cronCache = {};
 async function cronOf(repoName, path, sha) {
-  const key = `${repoName}::${path}`;
+  const key = `${labelOf(repoName)}::${path}`; // 26-a: label-space keys so the public cache stays usable
   const hit = prev.cronCache[key];
   if (hit && hit.sha === sha) { cronCache[key] = hit; return hit.cron; }
   const r = await gh(`/repos/${ORG}/${repoName}/contents/${encodeURIComponent(path)}`);
@@ -119,7 +153,7 @@ function cronMin(cron) {
 async function classifyWorkflow(repo, wf) {
   const runs = repo.byWf.get(wf.id) || [];
   const last = runs[0] || null;
-  const cronKey = last?.path ? `${repo.name}::${last.path}` : null;
+  const cronKey = last?.path ? `${labelOf(repo.name)}::${last.path}` : null; // 26-a: label-space
   const cron = last?.path ? await cronOf(repo.name, last.path, repo.ymlShas[last.path]) : null;
   const dispatchable = cronKey && cronCache[cronKey] ? cronCache[cronKey].dispatchable !== false : false;
   let streak = 0;
@@ -193,7 +227,7 @@ for (const repo of fleet) {
   // ---------- ACT (envelope) ----------
   for (const w of wfRows) {
     if (dispatchBudget <= 0) break; // per-cycle stampede guard (T-w: 79 dispatches in one cycle is self-DoS)
-    const rk = `${repo.name}::${w.name}`;
+    const rk = `${labelOf(repo.name)}::${w.name}`; // 26-a: label-space (written to public state)
     if ((w.class === 'failing' || w.class === 'flaky') && w.state === 'active') {
       if (w.class === 'billing-blocked') continue;
       if (w.class === 'billing-blocked' || w.class === 'broken-workflow') continue; // owner-level / engineering-level, not retry-able
@@ -246,12 +280,14 @@ for (const repo of fleet) {
     }
   }
   // visibility-flip law: a repo that was private last cycle and is public now = red alert (custody exposure)
-  if (prev.visibility && prev.visibility[repo.name] === true && repo.private === false) {
-    alerts.push({ key: `visibility::${repo.name}`, level: 'red', repo: repo.name, workflow: null, class: 'visibility-flip', note: 'הריפו עבר מפרטי לציבורי בין-מחזורים — סיכון-חשיפת-סודות; דרוש סריקת-gitleaks מיידית ואישור-בעלים', at: NOW });
+  // 26-a: prev.visibility may key private entries by their label — check the name's own
+  // label too (labelFor is visibility-independent) so private->public flips are still caught.
+  if (prev.visibility && (prev.visibility[repo.name] === true || prev.visibility[labelFor(repo.name)] === true) && repo.private === false) {
+    alerts.push({ key: `visibility::${labelOf(repo.name)}`, level: 'red', repo: labelOf(repo.name), workflow: null, class: 'visibility-flip', note: 'הריפו עבר מפרטי לציבורי בין-מחזורים — סיכון-חשיפת-סודות; דרוש סריקת-gitleaks מיידית ואישור-בעלים', at: NOW });
   }
   const rHealth = repoHealth === 'red' ? 'red' : repoHealth;
-  if (rHealth === 'red' && !prev.reds.includes(repo.name)) {
-    alerts.push({ key: `repo::${repo.name}`, level: 'red', repo: repo.name, workflow: null, class: 'repo-red', note: reds.map(w => `${w.name}: ${w.note}`).join(' | ').slice(0, 400), at: NOW });
+  if (rHealth === 'red' && !prev.reds.includes(labelOf(repo.name))) { // 26-a: prev.reds stores labels
+    alerts.push({ key: `repo::${labelOf(repo.name)}`, level: 'red', repo: labelOf(repo.name), workflow: null, class: 'repo-red', note: reds.map(w => `${w.name}: ${w.note}`).join(' | ').slice(0, 400), at: NOW });
   }
 }
 
@@ -263,7 +299,7 @@ const rl = await gh('/rate_limit');
 const quota = rl.ok && rl.data?.resources?.core ? { limit: rl.data.resources.core.limit, remaining: rl.data.resources.core.remaining, resetAt: new Date(rl.data.resources.core.reset * 1000).toISOString() } : null;
 
 // ---------- RECORD: fleet-health.json ----------
-const payload = {
+const payload = redactDeep({ // 26-a: deep-redact at the boundary — names, alert/remediation fields, cronCache/autoRetries keys, any string concat of a private name
   generatedAt: NOW,
   version: 1,
   cadenceMin: 30,
@@ -286,13 +322,13 @@ const payload = {
   apiQuota: quota,
   cronCache,
   autoRetries: prev.autoRetries,
-};
+});
 
 // ---------- ALERT: operator inbox (only for NEW reds, agent role, honest) ----------
 // one-voice dedupe: identical red-set sha16 == same alert; never re-announce an
 // unchanged fleet state (the inbox is a log of CHANGES, not a heartbeat copy)
 if (alerts.length) {
-  const text = `[grid-watch] אדומים חדשים בצי (${alerts.length}): ${alerts.map(a => `${a.repo}${a.workflow ? '/' + a.workflow : ''} — ${a.class}`).join('; ')}. ריפוי-עצמי הופעל כשניתן; ראה GridWatch/state/fleet-health.json`;
+  const text = redactStr(`[grid-watch] אדומים חדשים בצי (${alerts.length}): ${alerts.map(a => `${a.repo}${a.workflow ? '/' + a.workflow : ''} — ${a.class}`).join('; ')}. ריפוי-עצמי הופעל כשניתן; ראה GridWatch/state/fleet-health.json`); // 26-a: inbox is public (FleetHQ)
   const inboxPath = `/repos/${ORG}/FleetHQ/contents/office/state/operator-inbox.jsonl`;
   if (DRYRUN) { console.log('[dryrun] would alert inbox:', text.slice(0, 120)); }
   const cur = DRYRUN ? { ok: false } : await gh(inboxPath);
@@ -344,7 +380,7 @@ for (let i = 0; i < 4 && !verified; i++) {
   console.log('verify pass', i + 1, verified);
 }
 
-const summary = [
+const summary = redactStr([ // 26-a: the Actions step summary is public on a public repo
   `## GridWatch @ ${NOW}`,
   `- repos: ${payload.totals.repos} (${payload.totals.public} public / ${payload.totals.private} private)`,
   `- workflows: ${payload.totals.workflows} — green ${payload.totals.green} / amber ${payload.totals.amber} / red ${payload.totals.red}`,
@@ -353,7 +389,7 @@ const summary = [
   '',
   ...repoRows.filter(r => r.health !== 'green').map(r => `### ${r.name} (${r.health}) — ${r.counts.red} red / ${r.counts.amber} amber`),
   ...repoRows.flatMap(r => r.workflows.filter(w => w.health !== 'ok').map(w => `- ${r.name}/${w.name}: ${w.health} ${w.class || ''} ${w.note}`)),
-].join('\n');
+].join('\n'));
 try { writeFileSync(process.env.GITHUB_STEP_SUMMARY || '/tmp/gw-summary.md', summary); } catch {}
 console.log(summary.slice(0, 1200));
 if (!verified) { console.error('DOUBLE-PASS VERIFY FAILED'); process.exit(1); }
