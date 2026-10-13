@@ -197,6 +197,18 @@ for (const repo of fleet) {
     if ((w.class === 'failing' || w.class === 'flaky') && w.state === 'active') {
       if (w.class === 'billing-blocked') continue;
       if (w.class === 'billing-blocked' || w.class === 'broken-workflow') continue; // owner-level / engineering-level, not retry-able
+      // OWNER-WORD 2026-10-13 (email-flood cure, measured storm 03:24Z): private repos
+      // sit behind the free-minutes wall — every dispatch there creates a 0-step run,
+      // a failure email, and zero value. Dispatching into a private repo is FORBIDDEN.
+      // The red stays honestly recorded in the census; the cure is owner-level (billing),
+      // so we classify once, alert once, and never burn retry budget on physics.
+      if (repo.private) {
+        if (!prev.autoRetries['PVT::' + rk]) {
+          prev.autoRetries['PVT::' + rk] = 99; // park — private-repo lanes are never dispatch-retried
+          remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'private-repo dispatch BANNED (minutes wall) — cure is owner billing, not retries', class: w.class });
+        }
+        continue;
+      }
       if (!w.dispatchable) {
         if (!prev.autoRetries[rk]) {
           remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'not-dispatchable (no workflow_dispatch trigger) — cannot auto-heal; needs engineering change', class: w.class });
@@ -225,6 +237,9 @@ for (const repo of fleet) {
       await sleep(120);
     }
     if (w.class === 'dormant') {
+      // private repos: re-enabling lanes on a minutes-dead repo manufactures future 0-step
+      // failures (email noise) — leave them dormant until the owner cures billing.
+      if (repo.private) continue;
       const e = DRYRUN ? { status: 204 } : await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/enable`, { method: 'PUT' });
       remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: e.status === 204 ? 're-enabled (was disabled_inactivity)' : `enable-failed http=${e.status}` });
       await sleep(120);
