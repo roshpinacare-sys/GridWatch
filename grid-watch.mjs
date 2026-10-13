@@ -274,6 +274,8 @@ const payload = {
 };
 
 // ---------- ALERT: operator inbox (only for NEW reds, agent role, honest) ----------
+// one-voice dedupe: identical red-set sha16 == same alert; never re-announce an
+// unchanged fleet state (the inbox is a log of CHANGES, not a heartbeat copy)
 if (alerts.length) {
   const text = `[grid-watch] אדומים חדשים בצי (${alerts.length}): ${alerts.map(a => `${a.repo}${a.workflow ? '/' + a.workflow : ''} — ${a.class}`).join('; ')}. ריפוי-עצמי הופעל כשניתן; ראה GridWatch/state/fleet-health.json`;
   const inboxPath = `/repos/${ORG}/FleetHQ/contents/office/state/operator-inbox.jsonl`;
@@ -282,12 +284,18 @@ if (alerts.length) {
   if (cur.ok) {
     const curTxt = Buffer.from(cur.data.content || '', 'base64').toString().trimEnd();
     const { createHash } = await import('node:crypto');
-    const line = JSON.stringify({ at: NOW, id: createHash('sha256').update(text + NOW).digest('hex').slice(0, 12), text, sha16: createHash('sha256').update(text).digest('hex').slice(0, 16) });
-    const put = await gh(inboxPath, {
-      method: 'PUT',
-      body: JSON.stringify({ message: `grid-watch: fleet alert (${alerts.length} new red)`, content: Buffer.from(curTxt + '\n' + line).toString('base64'), sha: cur.data.sha }),
-    });
-    console.log('inbox alert put:', put.status);
+    const sha16 = createHash('sha256').update(text).digest('hex').slice(0, 16);
+    const lastSha = (() => { try { const last = curTxt.split('\n').filter(Boolean).pop(); return JSON.parse(last || '{}').sha16 || ''; } catch { return ''; } })();
+    if (sha16 === lastSha) {
+      console.log('inbox alert skipped: identical red-set already announced (sha16', sha16 + ')');
+    } else {
+      const line = JSON.stringify({ at: NOW, id: createHash('sha256').update(text + NOW).digest('hex').slice(0, 12), text, sha16 });
+      const put = await gh(inboxPath, {
+        method: 'PUT',
+        body: JSON.stringify({ message: `grid-watch: fleet alert (${alerts.length} red)`, content: Buffer.from(curTxt + '\n' + line).toString('base64'), sha: cur.data.sha }),
+      });
+      console.log('inbox alert put:', put.status);
+    }
   }
 }
 
