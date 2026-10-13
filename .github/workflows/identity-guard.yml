@@ -1,0 +1,60 @@
+# IDENTITY-GUARD — DECISIONS #10 enforcement (keyless, fail-loud)
+#
+# Law: no commit may carry NAME@users.noreply.github.com as author OR
+# committer, except the owner identities and github-actions[bot].
+# Any other NAME in that namespace maps to a REAL foreign GitHub account —
+# measured 2026-10-13 (T-74/T-76): 5 innocent people (Agent-Z/Agent-4/zai-code/
+# noreply/R39) were being attributed commits they never made.
+#
+# This guard fails the push's check-run loudly with the exact violating
+# commits. It is intentionally cheap (no secrets, no deps) and lives in every
+# active repo so the recurrence the owner saw on 2026-10-13 morning
+# (local-beats / dex-beat / decider-twin regressions) can never pass silently.
+
+name: identity-guard
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: identity-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Checkout full history (needed for push-range resolution)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan pushed commits for forbidden identities (author + committer)
+        shell: bash
+        run: |
+          set -euo pipefail
+          ALLOWED='^(326012154\+roshpinacare-sys@users\.noreply\.github\.com|roshpinacare-sys@users\.noreply\.github\.com|github-actions\[bot\]@users\.noreply\.github\.com)$'
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            RANGE="HEAD~40..HEAD"
+          else
+            RANGE="$BEFORE..$AFTER"
+          fi
+          echo "identity-guard: scanning $RANGE"
+          VIOLATIONS="$(git log --pretty='%H|%ae|%ce|%s' "$RANGE" 2>/dev/null | awk -F'|' '
+            ($2 ~ /@users\.noreply\.github\.com$/ || $3 ~ /@users\.noreply\.github\.com$/) &&
+            $2 !~ /^326012154\+roshpinacare-sys@/ && $3 !~ /^326012154\+roshpinacare-sys@/ &&
+            $2 !~ /^github-actions\[bot\]@/ && $3 !~ /^github-actions\[bot\]@/ &&
+            $2 !~ /^roshpinacare-sys@/ && $3 !~ /^roshpinacare-sys@/
+          ' || true)"
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::error::DECISIONS #10 VIOLATION — NAME@users.noreply.github.com identities in pushed commits (maps to a real foreign GitHub account)"
+            echo "$VIOLATIONS"
+            exit 1
+          fi
+          echo "identity-guard: PASS — 0 forbidden identities in $RANGE"
