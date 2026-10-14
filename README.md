@@ -1,5 +1,10 @@
 # GridWatch — the fleet's control plane
 
+[![SAOS office](https://roshpinacare-sys.github.io/Domain/badge/office.svg)](https://roshpinacare-sys.github.io/Domain/office3d/)
+[![SAOS fleet](https://roshpinacare-sys.github.io/Domain/badge/fleet.svg)](https://roshpinacare-sys.github.io/Domain/status/)
+[![steem-edge](https://roshpinacare-sys.github.io/Domain/badge/edge.svg)](https://roshpinacare-sys.github.io/Domain/money.html)
+
+
 The grid sees itself. Every 30 minutes (GitHub cloud — zero sandbox dependency):
 
 1. **SENSE** — every repo, every workflow, every run: conclusion streaks, cadence from cron, silence detection, billing-block detection (via check-run annotations).
