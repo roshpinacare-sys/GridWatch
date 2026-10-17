@@ -1,10 +1,14 @@
-// grid-watch.mjs — the fleet's control plane (GridWatch v1)
+// grid-watch.mjs — the fleet's control plane (GridWatch v2, READ-ONLY law)
 //
 // SENSE  — every repo, every workflow, every run: health, streaks, cadence, silence.
 // DECIDE — per-workflow health class: ok | flaky | failing | billing-blocked | dormant | stale | never-run.
-// ACT    — within the autonomy envelope (reversible + measured): auto-retry flaky/failing,
-//          re-enable dormant, never touch billing (owner-level), cap retries to avoid pileups.
-// ALERT  — new reds -> operator-inbox (agent role, honest) + decider feed file.
+// ACT    — REMOVED 2026-10-17 (owner directive + 9-agent ops law): the monitor
+//          OBSERVES and RECORDS only. No auto-retry, no re-enable, no mutation.
+//          Rationale: (1) the fleet stop-bleed must stay stable — auto-heal would
+//          resurrect silenced workflows; (2) irreversible/behavioural changes belong
+//          to the owner's explicit decisions, not to a cron loop.
+// ALERT  — alerts recorded in state/fleet-health.json + step summary (cross-repo
+//          FleetHQ inbox write REMOVED under the 9-agent ownership protocol).
 // RECORD — state/fleet-health.json committed (the single public truth file), double-pass verified.
 //
 // No secrets in outputs. Token env: GH_PAT. Zero deps.
@@ -199,8 +203,7 @@ async function classifyWorkflow(repo, wf) {
 }
 
 const alerts = [];
-const remediations = [];
-let dispatchBudget = 25; // per-cycle cap
+const remediations = []; // record-only since v2: no dispatches, no enables — kept for state-schema stability
 const repoRows = [];
 let wfTotals = { green: 0, amber: 0, red: 0 };
 
@@ -224,61 +227,13 @@ for (const repo of fleet) {
     workflows: wfRows.sort((a, b) => (a.health === 'red' ? -1 : b.health === 'red' ? 1 : a.health === 'amber' ? -1 : b.health === 'amber' ? 1 : a.name.localeCompare(b.name))),
   });
 
-  // ---------- ACT (envelope) ----------
-  for (const w of wfRows) {
-    if (dispatchBudget <= 0) break; // per-cycle stampede guard (T-w: 79 dispatches in one cycle is self-DoS)
-    const rk = `${labelOf(repo.name)}::${w.name}`; // 26-a: label-space (written to public state)
-    if ((w.class === 'failing' || w.class === 'flaky') && w.state === 'active') {
-      if (w.class === 'billing-blocked') continue;
-      if (w.class === 'billing-blocked' || w.class === 'broken-workflow') continue; // owner-level / engineering-level, not retry-able
-      // OWNER-WORD 2026-10-13 (email-flood cure, measured storm 03:24Z): private repos
-      // sit behind the free-minutes wall — every dispatch there creates a 0-step run,
-      // a failure email, and zero value. Dispatching into a private repo is FORBIDDEN.
-      // The red stays honestly recorded in the census; the cure is owner-level (billing),
-      // so we classify once, alert once, and never burn retry budget on physics.
-      if (repo.private) {
-        if (!prev.autoRetries['PVT::' + rk]) {
-          prev.autoRetries['PVT::' + rk] = 99; // park — private-repo lanes are never dispatch-retried
-          remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'private-repo dispatch BANNED (minutes wall) — cure is owner billing, not retries', class: w.class });
-        }
-        continue;
-      }
-      if (!w.dispatchable) {
-        if (!prev.autoRetries[rk]) {
-          remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'not-dispatchable (no workflow_dispatch trigger) — cannot auto-heal; needs engineering change', class: w.class });
-          prev.autoRetries[rk] = 99; // park it — never retry-spam an un-dispatchable workflow
-        }
-        if (w.health === 'red' && !alerts.find(a => a.key === rk))
-          alerts.push({ key: rk, level: 'red', repo: repo.name, workflow: w.name, class: w.class, note: `${w.note}; workflow ללא workflow_dispatch — ריפוי-עצמי בלתי-אפשרי עד שינוי-קוד`, at: NOW });
-        continue;
-      }
-      const recent = ageMin(w.lastRunAt);
-      if (recent != null && recent < 12) continue; // a run is already in flight — no pileup
-      const prevRetries = prev.autoRetries[rk] || 0;
-      if (prevRetries >= 3) {
-        if (w.health === 'red' && !alerts.find(a => a.key === rk))
-          alerts.push({ key: rk, level: 'red', repo: repo.name, workflow: w.name, class: w.class, note: `${w.note}; auto-retry exhausted (${prevRetries}) — needs engineering triage`, at: NOW });
-        continue;
-      }
-      const d = DRYRUN ? { status: 204 } : await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: repo.defaultBranch }) });
-      if (d.status === 204) {
-        dispatchBudget--;
-        remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'workflow_dispatch retry', class: w.class, attempt: prevRetries + 1 });
-        prev.autoRetries[rk] = prevRetries + 1;
-      } else {
-        remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: 'dispatch-failed', http: d.status });
-      }
-      await sleep(120);
-    }
-    if (w.class === 'dormant') {
-      // private repos: re-enabling lanes on a minutes-dead repo manufactures future 0-step
-      // failures (email noise) — leave them dormant until the owner cures billing.
-      if (repo.private) continue;
-      const e = DRYRUN ? { status: 204 } : await gh(`/repos/${ORG}/${repo.name}/actions/workflows/${w.id}/enable`, { method: 'PUT' });
-      remediations.push({ at: NOW, repo: repo.name, workflow: w.name, action: e.status === 204 ? 're-enabled (was disabled_inactivity)' : `enable-failed http=${e.status}` });
-      await sleep(120);
-    }
-  }
+  // ---------- ACT — REMOVED (v2 read-only law, 2026-10-17) ----------
+  // The v1 envelope auto-retried failing workflows (POST dispatches) and
+  // re-enabled dormant ones (PUT enable). Both are MUTATIONS of the fleet and
+  // are gone: a monitor that can act becomes a second actor to police, and
+  // auto-heal directly fights the stop-bleed (it would resurrect silenced
+  // workflows). Reds stay honestly recorded here + in alerts; the cure is
+  // owner/engineering decisions, never a cron loop.
   // visibility-flip law: a repo that was private last cycle and is public now = red alert (custody exposure)
   // 26-a: prev.visibility may key private entries by their label — check the name's own
   // label too (labelFor is visibility-independent) so private->public flips are still caught.
@@ -301,8 +256,9 @@ const quota = rl.ok && rl.data?.resources?.core ? { limit: rl.data.resources.cor
 // ---------- RECORD: fleet-health.json ----------
 const payload = redactDeep({ // 26-a: deep-redact at the boundary — names, alert/remediation fields, cronCache/autoRetries keys, any string concat of a private name
   generatedAt: NOW,
-  version: 1,
-  cadenceMin: 30,
+  version: 2,
+  readOnlyLaw: true,
+  cadenceMin: 360,
   totals: {
     repos: repoRows.length,
     public: repoRows.filter(r => !r.private).length,
@@ -324,30 +280,14 @@ const payload = redactDeep({ // 26-a: deep-redact at the boundary — names, ale
   autoRetries: prev.autoRetries,
 });
 
-// ---------- ALERT: operator inbox (only for NEW reds, agent role, honest) ----------
-// one-voice dedupe: identical red-set sha16 == same alert; never re-announce an
-// unchanged fleet state (the inbox is a log of CHANGES, not a heartbeat copy)
+// ---------- ALERT: cross-repo inbox write REMOVED (v2 read-only law, 2026-10-17) ----------
+// v1 wrote red alerts into FleetHQ/office/state/operator-inbox.jsonl (another
+// lane's repo under the 9-agent ownership protocol, and nothing live consumes
+// it with FleetHQ Actions silenced). Alerts now live in state/fleet-health.json
+// (own repo) + the Actions step summary. Restoring the inbox write requires
+// owner approval + lane coordination.
 if (alerts.length) {
-  const text = redactStr(`[grid-watch] אדומים חדשים בצי (${alerts.length}): ${alerts.map(a => `${a.repo}${a.workflow ? '/' + a.workflow : ''} — ${a.class}`).join('; ')}. ריפוי-עצמי הופעל כשניתן; ראה GridWatch/state/fleet-health.json`); // 26-a: inbox is public (FleetHQ)
-  const inboxPath = `/repos/${ORG}/FleetHQ/contents/office/state/operator-inbox.jsonl`;
-  if (DRYRUN) { console.log('[dryrun] would alert inbox:', text.slice(0, 120)); }
-  const cur = DRYRUN ? { ok: false } : await gh(inboxPath);
-  if (cur.ok) {
-    const curTxt = Buffer.from(cur.data.content || '', 'base64').toString().trimEnd();
-    const { createHash } = await import('node:crypto');
-    const sha16 = createHash('sha256').update(text).digest('hex').slice(0, 16);
-    const lastSha = (() => { try { const last = curTxt.split('\n').filter(Boolean).pop(); return JSON.parse(last || '{}').sha16 || ''; } catch { return ''; } })();
-    if (sha16 === lastSha) {
-      console.log('inbox alert skipped: identical red-set already announced (sha16', sha16 + ')');
-    } else {
-      const line = JSON.stringify({ at: NOW, id: createHash('sha256').update(text + NOW).digest('hex').slice(0, 12), text, sha16 });
-      const put = await gh(inboxPath, {
-        method: 'PUT',
-        body: JSON.stringify({ message: `grid-watch: fleet alert (${alerts.length} red)`, content: Buffer.from(curTxt + '\n' + line).toString('base64'), sha: cur.data.sha }),
-      });
-      console.log('inbox alert put:', put.status);
-    }
-  }
+  console.log(`[grid-watch] ${alerts.length} alert(s) recorded in fleet-health.json only (cross-repo inbox write removed — read-only monitor)`);
 }
 
 // ---------- commit state (contents API, 409-safe) ----------

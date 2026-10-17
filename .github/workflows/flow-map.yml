@@ -12,9 +12,10 @@ name: flow-map
 # private repos (data only). The generator measures the private Sandbox,
 # commits the map back, and the owner UI reads it exactly as before.
 # ═══════════════════════════════════════════════════════════════════════════
+# NEUTERED 2026-10-17 (agent-5, T-509): schedule removed — this workflow writes into the
+# private Sandbox repo (Lane-F archive target under the 9-agent ownership protocol) and
+# ran 48x/day. Kept dispatch-only for on-demand runs if the owner ever wants a flow map.
 on:
-  schedule:
-    - cron: "11,41 * * * *"
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,10 +1,14 @@
 name: grid-watch
-# The fleet's control plane: every 30 minutes — SENSE every repo/workflow/run,
-# DECIDE health classes, ACT within the autonomy envelope (auto-retry, re-enable),
-# RECORD the single public truth file (state/fleet-health.json).
+# The fleet's control plane — v2 READ-ONLY law (2026-10-17, owner directive):
+# SENSE every repo/workflow/run -> DECIDE health classes -> RECORD the single
+# public truth file (state/fleet-health.json), double-pass verified.
+# NO mutation: auto-retry and re-enable were removed — a monitor observes,
+# it does not act. Mutations belong to the owner's explicit decisions.
+# Cadence 30min -> every 6h (4 runs/day ≈ ~12 Actions-minutes/month for the
+# whole fleet's single truth source) + on-demand workflow_dispatch.
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '23 */6 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: SENSE -> DECIDE -> ACT -> RECORD
+      - name: SENSE -> DECIDE -> RECORD (read-only)
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: node grid-watch.mjs
