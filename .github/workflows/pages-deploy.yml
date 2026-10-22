@@ -1,0 +1,63 @@
+# agent-9/t55s: Actions-based Pages deployment for GridWatch.
+# Measured 2026-10-22: legacy Pages source is main:/docs (root carries no site).
+# Guard pattern (t55o): deploy runs ONLY when build_type=workflow; otherwise grey skip.
+name: pages-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      deploy: ${{ steps.check.outputs.deploy }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set +e
+          RESP=$(curl -sS -m 15 -H "Authorization: Bearer ${GH_TOKEN}" \
+            "https://api.github.com/repos/${REPO}/pages")
+          BT=$(echo "$RESP" | grep -o '"build_type": *"[^"]*"' | head -1 | sed 's/.*"\([^"]*\)"$/\1/')
+          echo "measured build_type: ${BT:-<unreachable>}"
+          if [ "$BT" = "workflow" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "Pages source still legacy — skipping deploy (grey) by design."
+          fi
+
+  deploy:
+    needs: guard
+    if: needs.guard.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.dep.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+          include-hidden-files: true
+      - id: dep
+        uses: actions/deploy-pages@v4
