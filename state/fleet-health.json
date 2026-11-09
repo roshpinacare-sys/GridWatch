@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-08T23:34:04.933Z",
+ "generatedAt": "2026-11-09T00:47:32.331Z",
  "version": 2,
  "readOnlyLaw": true,
  "cadenceMin": 360,
@@ -8,30 +8,104 @@
   "public": 41,
   "private": 9,
   "workflows": 411,
-  "green": 358,
-  "amber": 25,
-  "red": 28
+  "green": 355,
+  "amber": 30,
+  "red": 26
  },
  "repos": [
   {
-   "name": "Console",
+   "name": "roshpinacare-sys.github.io",
    "private": false,
-   "pushedAt": "2026-11-08T23:34:04Z",
-   "health": "amber",
+   "pushedAt": "2026-11-09T00:47:15Z",
+   "health": "green",
    "counts": {
-    "workflows": 26,
-    "green": 24,
-    "amber": 2,
+    "workflows": 4,
+    "green": 4,
+    "amber": 0,
     "red": 0
    },
    "workflows": [
+    {
+     "name": "identity-guard",
+     "state": "active",
+     "cron": "13 8 * * 1",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:47:17Z",
+     "lastConclusion": null,
+     "lastEvent": "push"
+    },
+    {
+     "name": "pages-build-deployment",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-26T16:13:33Z",
+     "lastConclusion": "success",
+     "lastEvent": "dynamic"
+    },
+    {
+     "name": "pages-deploy",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:47:16Z",
+     "lastConclusion": null,
+     "lastEvent": "push"
+    },
+    {
+     "name": "swallow-watch",
+     "state": "active",
+     "cron": "59 * * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:10:20Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    }
+   ]
+  },
+  {
+   "name": "Console",
+   "private": false,
+   "pushedAt": "2026-11-09T00:47:02Z",
+   "health": "amber",
+   "counts": {
+    "workflows": 26,
+    "green": 22,
+    "amber": 4,
+    "red": 0
+   },
+   "workflows": [
+    {
+     "name": "saos-fold",
+     "state": "active",
+     "cron": "*/15 * * * *",
+     "health": "amber",
+     "class": "stale",
+     "note": "no run for 208m (cadence ~15m)",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T21:21:55Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
     {
      "name": "rea-desk",
      "state": "active",
      "cron": "52 4 * * 2",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 7871m (cadence ~1440m)",
+     "note": "no run for 7944m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-03T12:25:35Z",
      "lastConclusion": "success",
@@ -50,6 +124,18 @@
      "lastEvent": "workflow_dispatch"
     },
     {
+     "name": "identity-guard",
+     "state": "active",
+     "cron": "33 7 * * 1",
+     "health": "amber",
+     "class": "flaky",
+     "note": "last run failed (earlier succeeded)",
+     "streak": 1,
+     "lastRunAt": "2026-11-09T00:46:23Z",
+     "lastConclusion": "failure",
+     "lastEvent": "push"
+    },
+    {
      "name": "agent-verify",
      "state": "active",
      "cron": "58 */4 * * *",
@@ -57,7 +143,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:48:00Z",
+     "lastRunAt": "2026-11-09T00:08:43Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -81,7 +167,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T19:11:54Z",
+     "lastRunAt": "2026-11-09T00:08:23Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -141,9 +227,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:22:54Z",
+     "lastRunAt": "2026-11-08T23:40:52Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "gitleaks-secret-scan",
@@ -153,7 +239,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:01:22Z",
+     "lastRunAt": "2026-11-09T00:46:13Z",
      "lastConclusion": "success",
      "lastEvent": "pull_request"
     },
@@ -168,18 +254,6 @@
      "lastRunAt": "2026-11-08T22:49:11Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
-    },
-    {
-     "name": "identity-guard",
-     "state": "active",
-     "cron": "33 7 * * 1",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:49Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
     },
     {
      "name": "key-verify",
@@ -213,9 +287,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:22:24Z",
+     "lastRunAt": "2026-11-08T23:52:13Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "pages-build-deployment",
@@ -237,7 +311,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:49Z",
+     "lastRunAt": "2026-11-09T00:46:23Z",
      "lastConclusion": "success",
      "lastEvent": "push"
     },
@@ -261,21 +335,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:33:52Z",
+     "lastRunAt": "2026-11-09T00:47:32Z",
      "lastConclusion": null,
      "lastEvent": "workflow_run"
-    },
-    {
-     "name": "saos-fold",
-     "state": "active",
-     "cron": "*/15 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T21:21:55Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
     },
     {
      "name": "swallow-watch",
@@ -285,7 +347,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:48:14Z",
+     "lastRunAt": "2026-11-09T00:08:28Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -309,8 +371,8 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:21:07Z",
-     "lastConclusion": "success",
+     "lastRunAt": "2026-11-09T00:47:32Z",
+     "lastConclusion": null,
      "lastEvent": "workflow_run"
     },
     {
@@ -333,22 +395,304 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:01:22Z",
+     "lastRunAt": "2026-11-09T00:46:13Z",
      "lastConclusion": "success",
      "lastEvent": "pull_request"
     }
    ]
   },
   {
+   "name": "Pulse",
+   "private": false,
+   "pushedAt": "2026-11-09T00:46:31Z",
+   "health": "green",
+   "counts": {
+    "workflows": 5,
+    "green": 5,
+    "amber": 0,
+    "red": 0
+   },
+   "workflows": [
+    {
+     "name": "heartbeat",
+     "state": "active",
+     "cron": "*/30 * * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:30:02Z",
+     "lastConclusion": null,
+     "lastEvent": "repository_dispatch"
+    },
+    {
+     "name": "identity-guard",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:33Z",
+     "lastConclusion": "success",
+     "lastEvent": "push"
+    },
+    {
+     "name": "pages-build-deployment",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-22T13:01:30Z",
+     "lastConclusion": "success",
+     "lastEvent": "dynamic"
+    },
+    {
+     "name": "pages-deploy",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:33Z",
+     "lastConclusion": null,
+     "lastEvent": "push"
+    },
+    {
+     "name": "sovereign-voice",
+     "state": "active",
+     "cron": "*/30 * * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T23:00:16Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    }
+   ]
+  },
+  {
+   "name": "steem",
+   "private": false,
+   "pushedAt": "2026-11-09T00:46:29Z",
+   "health": "red",
+   "counts": {
+    "workflows": 10,
+    "green": 8,
+    "amber": 0,
+    "red": 2
+   },
+   "workflows": [
+    {
+     "name": "workflow-yaml-guard",
+     "state": "active",
+     "cron": null,
+     "health": "red",
+     "class": "failing",
+     "note": "6 consecutive failures",
+     "streak": 6,
+     "lastRunAt": "2026-10-28T21:35:28Z",
+     "lastConclusion": "failure",
+     "lastEvent": "pull_request"
+    },
+    {
+     "name": "gitleaks",
+     "state": "active",
+     "cron": null,
+     "health": "red",
+     "class": "failing",
+     "note": "3 consecutive failures",
+     "streak": 3,
+     "lastRunAt": "2026-10-28T21:35:28Z",
+     "lastConclusion": "failure",
+     "lastEvent": "pull_request"
+    },
+    {
+     "name": "cloud-heart",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-20T14:15:05Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "crown-vault-recovery",
+     "state": "active",
+     "cron": "19 5 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T11:56:25Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "engine-ci",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:31Z",
+     "lastConclusion": null,
+     "lastEvent": "push"
+    },
+    {
+     "name": "engine-selftest",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:31Z",
+     "lastConclusion": null,
+     "lastEvent": "push"
+    },
+    {
+     "name": "key-census-relay",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-29T10:23:00Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "key-census-relay-v2",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-06T12:49:37Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "vault-onekey-adopt",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-05T19:10:22Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "vault-onekey-verify",
+     "state": "active",
+     "cron": "40 6 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T13:50:28Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    }
+   ]
+  },
+  {
+   "name": "GridWatch",
+   "private": false,
+   "pushedAt": "2026-11-09T00:46:27Z",
+   "health": "green",
+   "counts": {
+    "workflows": 5,
+    "green": 5,
+    "amber": 0,
+    "red": 0
+   },
+   "workflows": [
+    {
+     "name": "flow-map",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-16T23:52:26Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "grid-watch",
+     "state": "active",
+     "cron": "23 */6 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:39Z",
+     "lastConclusion": null,
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "identity-guard",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:30Z",
+     "lastConclusion": "success",
+     "lastEvent": "push"
+    },
+    {
+     "name": "pages-build-deployment",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-22T13:13:33Z",
+     "lastConclusion": "success",
+     "lastEvent": "dynamic"
+    },
+    {
+     "name": "pages-deploy",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:46:30Z",
+     "lastConclusion": null,
+     "lastEvent": "push"
+    }
+   ]
+  },
+  {
    "name": "Domain",
    "private": false,
-   "pushedAt": "2026-11-08T23:32:57Z",
+   "pushedAt": "2026-11-09T00:46:23Z",
    "health": "red",
    "counts": {
     "workflows": 100,
-    "green": 92,
-    "amber": 4,
-    "red": 4
+    "green": 89,
+    "amber": 8,
+    "red": 3
    },
    "workflows": [
     {
@@ -376,18 +720,6 @@
      "lastEvent": "schedule"
     },
     {
-     "name": "ladder-refresh",
-     "state": "active",
-     "cron": "52 */4 * * *",
-     "health": "red",
-     "class": "failing",
-     "note": "6 consecutive failures",
-     "streak": 6,
-     "lastRunAt": "2026-11-08T20:47:48Z",
-     "lastConclusion": "failure",
-     "lastEvent": "schedule"
-    },
-    {
      "name": "economy-engine",
      "state": "active",
      "cron": "31 */3 * * *",
@@ -405,9 +737,21 @@
      "cron": "9 6 * * 3",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 6312m (cadence ~1440m)",
+     "note": "no run for 6386m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-04T14:24:05Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "social-audit",
+     "state": "active",
+     "cron": "59 4 * * 5",
+     "health": "amber",
+     "class": "stale",
+     "note": "no run for 3615m (cadence ~1440m)",
+     "streak": 0,
+     "lastRunAt": "2026-11-06T12:34:46Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -417,10 +761,22 @@
      "cron": "44 5 * * 1",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 9225m (cadence ~1440m)",
+     "note": "no run for 9299m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-02T13:50:58Z",
      "lastConclusion": "cancelled",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "ladder-refresh",
+     "state": "active",
+     "cron": "52 */4 * * *",
+     "health": "amber",
+     "class": "flaky",
+     "note": "last run failed (earlier succeeded)",
+     "streak": 1,
+     "lastRunAt": "2026-11-09T00:08:02Z",
+     "lastConclusion": "failure",
      "lastEvent": "schedule"
     },
     {
@@ -436,12 +792,36 @@
      "lastEvent": "workflow_dispatch"
     },
     {
+     "name": "identity-guard",
+     "state": "active",
+     "cron": "33 6 * * 1",
+     "health": "amber",
+     "class": "flaky",
+     "note": "last run failed (earlier succeeded)",
+     "streak": 1,
+     "lastRunAt": "2026-11-09T00:46:26Z",
+     "lastConclusion": "failure",
+     "lastEvent": "push"
+    },
+    {
+     "name": "estate-scrub",
+     "state": "active",
+     "cron": "*/15 * * * *",
+     "health": "amber",
+     "class": "stale",
+     "note": "no run for 217m (cadence ~15m)",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T21:12:49Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
      "name": "adsmarket-panel",
      "state": "active",
      "cron": "41 5 * * 1",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 9225m (cadence ~1440m)",
+     "note": "no run for 9298m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-02T13:51:23Z",
      "lastConclusion": "success",
@@ -467,7 +847,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:17:50Z",
+     "lastRunAt": "2026-11-09T00:37:57Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -503,9 +883,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:05:28Z",
+     "lastRunAt": "2026-11-09T00:36:00Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "artery-integrity-twin",
@@ -515,9 +895,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:13:16Z",
+     "lastRunAt": "2026-11-08T23:47:15Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "audience-analyst",
@@ -527,7 +907,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T18:12:56Z",
+     "lastRunAt": "2026-11-08T23:47:44Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -551,8 +931,8 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:08:10Z",
-     "lastConclusion": "success",
+     "lastRunAt": "2026-11-09T00:46:26Z",
+     "lastConclusion": null,
      "lastEvent": "push"
     },
     {
@@ -575,7 +955,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:48:10Z",
+     "lastRunAt": "2026-11-09T00:08:34Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -647,7 +1027,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:22:51Z",
+     "lastRunAt": "2026-11-08T23:47:16Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -743,7 +1123,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:36:09Z",
+     "lastRunAt": "2026-11-09T00:04:22Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -755,9 +1135,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:42:45Z",
+     "lastRunAt": "2026-11-08T23:41:32Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "dex-core",
@@ -779,7 +1159,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:09Z",
+     "lastRunAt": "2026-11-09T00:38:35Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -791,9 +1171,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T21:22:57Z",
+     "lastRunAt": "2026-11-09T00:08:34Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_run"
+     "lastEvent": "schedule"
     },
     {
      "name": "dex-router",
@@ -803,9 +1183,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:12:31Z",
+     "lastRunAt": "2026-11-09T00:04:05Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "dex-watchdog",
@@ -815,7 +1195,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:10:42Z",
+     "lastRunAt": "2026-11-08T23:48:54Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -827,9 +1207,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:22:53Z",
+     "lastRunAt": "2026-11-08T23:38:40Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "earn-audit-cron",
@@ -868,18 +1248,6 @@
      "lastEvent": "schedule"
     },
     {
-     "name": "estate-scrub",
-     "state": "active",
-     "cron": "*/15 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T21:12:49Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
      "name": "evo-windows",
      "state": "active",
      "cron": "19 3 * * 0",
@@ -911,7 +1279,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:08:10Z",
+     "lastRunAt": "2026-11-09T00:46:26Z",
      "lastConclusion": "success",
      "lastEvent": "push"
     },
@@ -923,7 +1291,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:39:13Z",
+     "lastRunAt": "2026-11-08T23:47:38Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -935,7 +1303,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:39:14Z",
+     "lastRunAt": "2026-11-08T23:47:41Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -971,7 +1339,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:01:23Z",
+     "lastRunAt": "2026-11-09T00:46:15Z",
      "lastConclusion": "success",
      "lastEvent": "pull_request"
     },
@@ -983,7 +1351,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:10:07Z",
+     "lastRunAt": "2026-11-08T23:42:09Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -995,7 +1363,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:25:57Z",
+     "lastRunAt": "2026-11-09T00:33:15Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -1007,7 +1375,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:37:58Z",
+     "lastRunAt": "2026-11-09T00:08:33Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -1043,21 +1411,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:39:15Z",
+     "lastRunAt": "2026-11-09T00:03:57Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "identity-guard",
-     "state": "active",
-     "cron": "33 6 * * 1",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:08:10Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
     },
     {
      "name": "key-census-relay",
@@ -1091,7 +1447,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:07:36Z",
+     "lastRunAt": "2026-11-09T00:11:26Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1127,9 +1483,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:13:37Z",
+     "lastRunAt": "2026-11-09T00:44:38Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_run"
+     "lastEvent": "schedule"
     },
     {
      "name": "network-census",
@@ -1139,7 +1495,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:09:55Z",
+     "lastRunAt": "2026-11-09T00:43:11Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1151,7 +1507,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:06:42Z",
+     "lastRunAt": "2026-11-08T23:47:19Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1187,9 +1543,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:11:15Z",
+     "lastRunAt": "2026-11-09T00:34:22Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "office-pulse-twin",
@@ -1199,9 +1555,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:23:24Z",
+     "lastRunAt": "2026-11-08T23:42:03Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "office-worldbeat",
@@ -1211,7 +1567,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:32:47Z",
+     "lastRunAt": "2026-11-09T00:47:16Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -1223,7 +1579,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:43:42Z",
+     "lastRunAt": "2026-11-09T00:22:00Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -1235,8 +1591,8 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:08:10Z",
-     "lastConclusion": "success",
+     "lastRunAt": "2026-11-09T00:46:26Z",
+     "lastConclusion": null,
      "lastEvent": "push"
     },
     {
@@ -1259,9 +1615,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:39:16Z",
+     "lastRunAt": "2026-11-08T23:56:04Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "press-bake",
@@ -1307,7 +1663,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:37:26Z",
+     "lastRunAt": "2026-11-09T00:08:42Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -1319,7 +1675,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T21:49:49Z",
+     "lastRunAt": "2026-11-08T23:47:43Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1415,9 +1771,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T18:55:24Z",
+     "lastRunAt": "2026-11-08T23:47:42Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "site-link-audit",
@@ -1427,21 +1783,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:08:10Z",
-     "lastConclusion": "success",
+     "lastRunAt": "2026-11-09T00:46:26Z",
+     "lastConclusion": null,
      "lastEvent": "push"
-    },
-    {
-     "name": "social-audit",
-     "state": "active",
-     "cron": "59 4 * * 5",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-06T12:34:46Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
     },
     {
      "name": "soldiers-curate",
@@ -1475,9 +1819,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:16:17Z",
+     "lastRunAt": "2026-11-09T00:03:58Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "sovereign-tick-cron",
@@ -1487,7 +1831,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T21:49:52Z",
+     "lastRunAt": "2026-11-08T23:47:37Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1499,9 +1843,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:13:00Z",
+     "lastRunAt": "2026-11-08T23:57:40Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_run"
+     "lastEvent": "schedule"
     },
     {
      "name": "steem-posting-repair",
@@ -1535,9 +1879,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:06:43Z",
+     "lastRunAt": "2026-11-08T23:47:26Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "token-forge",
@@ -1554,83 +1898,9 @@
    ]
   },
   {
-   "name": "Pulse",
-   "private": false,
-   "pushedAt": "2026-11-08T23:30:37Z",
-   "health": "green",
-   "counts": {
-    "workflows": 5,
-    "green": 5,
-    "amber": 0,
-    "red": 0
-   },
-   "workflows": [
-    {
-     "name": "heartbeat",
-     "state": "active",
-     "cron": "*/30 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:30:02Z",
-     "lastConclusion": null,
-     "lastEvent": "repository_dispatch"
-    },
-    {
-     "name": "identity-guard",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:04:09Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "pages-build-deployment",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-10-22T13:01:30Z",
-     "lastConclusion": "success",
-     "lastEvent": "dynamic"
-    },
-    {
-     "name": "pages-deploy",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:01:43Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "sovereign-voice",
-     "state": "active",
-     "cron": "*/30 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:00:16Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    }
-   ]
-  },
-  {
    "name": "Autonomy",
    "private": false,
-   "pushedAt": "2026-11-08T23:30:10Z",
+   "pushedAt": "2026-11-09T00:43:47Z",
    "health": "amber",
    "counts": {
     "workflows": 59,
@@ -1657,7 +1927,7 @@
      "cron": "17 5 * * 1",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 9248m (cadence ~1440m)",
+     "note": "no run for 9321m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-02T13:28:40Z",
      "lastConclusion": "success",
@@ -1669,7 +1939,7 @@
      "cron": "23 5 * * 1",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 9240m (cadence ~1440m)",
+     "note": "no run for 9313m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-02T13:36:38Z",
      "lastConclusion": "success",
@@ -1681,7 +1951,7 @@
      "cron": "23 4 * * 3",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 6439m (cadence ~1440m)",
+     "note": "no run for 6512m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-04T12:17:42Z",
      "lastConclusion": "success",
@@ -1693,7 +1963,7 @@
      "cron": "7 5 * * 3",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 6402m (cadence ~1440m)",
+     "note": "no run for 6475m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-04T12:54:39Z",
      "lastConclusion": "success",
@@ -1705,7 +1975,7 @@
      "cron": "37 6 * * 2",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 7739m (cadence ~1440m)",
+     "note": "no run for 7813m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-03T14:37:01Z",
      "lastConclusion": "success",
@@ -1731,7 +2001,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:40:19Z",
+     "lastRunAt": "2026-11-09T00:09:50Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_run"
     },
@@ -1779,9 +2049,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:07:51Z",
+     "lastRunAt": "2026-11-08T23:45:51Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "artery-catchup",
@@ -1791,7 +2061,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:12:14Z",
+     "lastRunAt": "2026-11-09T00:06:47Z",
      "lastConclusion": "success",
      "lastEvent": "push"
     },
@@ -1803,7 +2073,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:22:28Z",
+     "lastRunAt": "2026-11-09T00:04:04Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1827,7 +2097,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:55:55Z",
+     "lastRunAt": "2026-11-09T00:20:07Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1839,7 +2109,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:55:56Z",
+     "lastRunAt": "2026-11-09T00:20:08Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1851,9 +2121,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:18:02Z",
+     "lastRunAt": "2026-11-08T23:36:55Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "artery-flow",
@@ -1863,9 +2133,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:13:46Z",
+     "lastRunAt": "2026-11-09T00:04:02Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "artery-grid",
@@ -1875,9 +2145,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:44:58Z",
+     "lastRunAt": "2026-11-09T00:30:34Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "artery-growth",
@@ -1887,7 +2157,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:55:57Z",
+     "lastRunAt": "2026-11-09T00:20:09Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1899,9 +2169,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:57:23Z",
+     "lastRunAt": "2026-11-09T00:35:58Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "artery-pacer",
@@ -1911,7 +2181,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:21:00Z",
+     "lastRunAt": "2026-11-09T00:43:40Z",
      "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
@@ -1923,9 +2193,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:29:21Z",
+     "lastRunAt": "2026-11-08T23:42:45Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "artery-scout",
@@ -1935,7 +2205,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:55:59Z",
+     "lastRunAt": "2026-11-09T00:35:59Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1959,7 +2229,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:22:26Z",
+     "lastRunAt": "2026-11-09T00:04:03Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1971,7 +2241,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:06:41Z",
+     "lastRunAt": "2026-11-09T00:20:11Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -1995,9 +2265,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T21:13:16Z",
+     "lastRunAt": "2026-11-09T00:20:10Z",
      "lastConclusion": "success",
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "artery-wallet",
@@ -2007,7 +2277,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:40:18Z",
+     "lastRunAt": "2026-11-09T00:04:42Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -2019,9 +2289,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:33:18Z",
+     "lastRunAt": "2026-11-09T00:46:40Z",
      "lastConclusion": null,
-     "lastEvent": "schedule"
+     "lastEvent": "workflow_dispatch"
     },
     {
      "name": "claims-intake",
@@ -2043,7 +2313,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:57:46Z",
+     "lastRunAt": "2026-11-09T00:36:32Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_run"
     },
@@ -2055,9 +2325,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:04:11Z",
+     "lastRunAt": "2026-11-09T00:08:54Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "directive-bus",
@@ -2115,9 +2385,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:23:20Z",
+     "lastRunAt": "2026-11-09T00:10:41Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "repository_dispatch"
     },
     {
      "name": "fleet-heal",
@@ -2127,9 +2397,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:23:23Z",
+     "lastRunAt": "2026-11-09T00:10:37Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "repository_dispatch"
     },
     {
      "name": "floating-builds",
@@ -2139,7 +2409,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:51:02Z",
+     "lastRunAt": "2026-11-09T00:05:20Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_run"
     },
@@ -2163,7 +2433,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:12:14Z",
+     "lastRunAt": "2026-11-09T00:06:47Z",
      "lastConclusion": "success",
      "lastEvent": "push"
     },
@@ -2187,7 +2457,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:51:02Z",
+     "lastRunAt": "2026-11-09T00:05:20Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_run"
     },
@@ -2223,7 +2493,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:38:04Z",
+     "lastRunAt": "2026-11-09T00:08:54Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -2283,9 +2553,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:23:17Z",
+     "lastRunAt": "2026-11-09T00:47:47Z",
      "lastConclusion": null,
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "repository_dispatch"
     },
     {
      "name": "sovereign-tick",
@@ -2295,7 +2565,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:14:09Z",
+     "lastRunAt": "2026-11-09T00:10:37Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2319,7 +2589,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:23:22Z",
+     "lastRunAt": "2026-11-09T00:04:00Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -2331,9 +2601,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:23:19Z",
+     "lastRunAt": "2026-11-09T00:39:50Z",
      "lastConclusion": null,
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "repository_dispatch"
     },
     {
      "name": "world-evolver",
@@ -2350,28 +2620,148 @@
    ]
   },
   {
-   "name": "Defi",
+   "name": "saos-dex",
    "private": false,
-   "pushedAt": "2026-11-08T23:29:44Z",
-   "health": "green",
+   "pushedAt": "2026-11-09T00:43:03Z",
+   "health": "red",
    "counts": {
-    "workflows": 3,
-    "green": 3,
-    "amber": 0,
-    "red": 0
+    "workflows": 16,
+    "green": 12,
+    "amber": 2,
+    "red": 2
    },
    "workflows": [
     {
-     "name": "canary",
+     "name": "llm-bridge",
+     "state": "active",
+     "cron": null,
+     "health": "red",
+     "class": "failing",
+     "note": "4 consecutive failures",
+     "streak": 4,
+     "lastRunAt": "2026-10-13T01:14:24Z",
+     "lastConclusion": "failure",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "grid-trigger",
+     "state": "active",
+     "cron": null,
+     "health": "red",
+     "class": "failing",
+     "note": "6 consecutive failures",
+     "streak": 6,
+     "lastRunAt": "2026-10-13T01:14:26Z",
+     "lastConclusion": "failure",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "key-census-relay",
+     "state": "active",
+     "cron": null,
+     "health": "amber",
+     "class": "flaky",
+     "note": "last run failed (earlier succeeded)",
+     "streak": 1,
+     "lastRunAt": "2026-10-29T07:49:48Z",
+     "lastConclusion": "failure",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "key-census-relay-v2",
+     "state": "active",
+     "cron": null,
+     "health": "amber",
+     "class": "flaky",
+     "note": "last run failed (earlier succeeded)",
+     "streak": 1,
+     "lastRunAt": "2026-10-29T10:40:53Z",
+     "lastConclusion": "failure",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "arb-scan",
+     "state": "active",
+     "cron": "24,54 * * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:24:36Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "curate",
+     "state": "active",
+     "cron": "17 */6 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T21:59:14Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "dex-beat",
      "state": "active",
      "cron": null,
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-10-20T04:59:30Z",
+     "lastRunAt": "2026-11-09T00:03:59Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "dex-ci",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:35:16Z",
+     "lastConclusion": "success",
+     "lastEvent": "push"
+    },
+    {
+     "name": "dex-grid",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T18:58:43Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "dex-selftest",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:35:16Z",
+     "lastConclusion": "success",
+     "lastEvent": "push"
+    },
+    {
+     "name": "external-profit-publish",
+     "state": "active",
+     "cron": "43 */2 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:01:59Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
     },
     {
      "name": "gitleaks-secret-scan",
@@ -2381,9 +2771,45 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-10-20T07:42:38Z",
+     "lastRunAt": "2026-11-09T00:35:16Z",
+     "lastConclusion": "success",
+     "lastEvent": "push"
+    },
+    {
+     "name": "hive-heartbeat",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:04:01Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "identity-guard",
+     "state": "active",
+     "cron": "53 7 * * 1",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:35:16Z",
+     "lastConclusion": "skipped",
+     "lastEvent": "push"
+    },
+    {
+     "name": "mm-supremacy",
+     "state": "active",
+     "cron": "37 5 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T12:08:12Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
     },
     {
      "name": "workflow-yaml-guard",
@@ -2393,22 +2819,35 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-10-21T04:59:05Z",
+     "lastRunAt": "2026-11-09T00:35:16Z",
      "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "push"
     }
    ]
   },
   {
+   "name": "private-276fc4a2",
+   "private": true,
+   "pushedAt": "2026-11-09T00:42:46Z",
+   "health": "green",
+   "counts": {
+    "workflows": 0,
+    "green": 0,
+    "amber": 0,
+    "red": 0
+   },
+   "workflows": []
+  },
+  {
    "name": "Sandbox",
    "private": false,
-   "pushedAt": "2026-11-08T23:25:49Z",
+   "pushedAt": "2026-11-09T00:38:02Z",
    "health": "red",
    "counts": {
     "workflows": 35,
-    "green": 24,
+    "green": 25,
     "amber": 1,
-    "red": 10
+    "red": 9
    },
    "workflows": [
     {
@@ -2508,18 +2947,6 @@
      "lastEvent": "workflow_dispatch"
     },
     {
-     "name": "artery-fleet",
-     "state": "active",
-     "cron": null,
-     "health": "red",
-     "class": "failing",
-     "note": "3 consecutive failures",
-     "streak": 3,
-     "lastRunAt": "2026-11-08T22:04:16Z",
-     "lastConclusion": "failure",
-     "lastEvent": "repository_dispatch"
-    },
-    {
      "name": "agent-access",
      "state": "active",
      "cron": null,
@@ -2563,7 +2990,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:25:11Z",
+     "lastRunAt": "2026-11-09T00:20:00Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2575,8 +3002,20 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:44:45Z",
+     "lastRunAt": "2026-11-09T00:33:20Z",
      "lastConclusion": "success",
+     "lastEvent": "repository_dispatch"
+    },
+    {
+     "name": "artery-fleet",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:48:16Z",
+     "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
     {
@@ -2599,7 +3038,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:44:44Z",
+     "lastRunAt": "2026-11-09T00:33:19Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2611,7 +3050,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:30:47Z",
+     "lastRunAt": "2026-11-09T00:06:45Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2623,7 +3062,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:30:48Z",
+     "lastRunAt": "2026-11-09T00:06:45Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2647,7 +3086,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:58:16Z",
+     "lastRunAt": "2026-11-09T00:33:18Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2659,7 +3098,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:24:44Z",
+     "lastRunAt": "2026-11-09T00:46:22Z",
      "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
@@ -2695,7 +3134,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:11:41Z",
+     "lastRunAt": "2026-11-09T00:06:42Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2707,7 +3146,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:11:40Z",
+     "lastRunAt": "2026-11-09T00:06:42Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2719,8 +3158,8 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T21:50:27Z",
-     "lastConclusion": "success",
+     "lastRunAt": "2026-11-09T00:48:14Z",
+     "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
     {
@@ -2779,7 +3218,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:22:10Z",
+     "lastRunAt": "2026-11-09T00:37:51Z",
      "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
@@ -2791,8 +3230,8 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:25:25Z",
-     "lastConclusion": "success",
+     "lastRunAt": "2026-11-09T00:48:13Z",
+     "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
     {
@@ -2815,7 +3254,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:11:42Z",
+     "lastRunAt": "2026-11-09T00:06:46Z",
      "lastConclusion": "success",
      "lastEvent": "repository_dispatch"
     },
@@ -2836,7 +3275,7 @@
   {
    "name": "saos-runtime",
    "private": false,
-   "pushedAt": "2026-11-08T23:24:09Z",
+   "pushedAt": "2026-11-09T00:33:30Z",
    "health": "red",
    "counts": {
     "workflows": 39,
@@ -2851,9 +3290,9 @@
      "cron": null,
      "health": "red",
      "class": "failing",
-     "note": "6 consecutive failures",
-     "streak": 6,
-     "lastRunAt": "2026-11-07T18:30:17Z",
+     "note": "3 consecutive failures",
+     "streak": 3,
+     "lastRunAt": "2026-11-09T00:11:30Z",
      "lastConclusion": "failure",
      "lastEvent": "workflow_dispatch"
     },
@@ -2863,7 +3302,7 @@
      "cron": "37 4 * * 1",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 9287m (cadence ~1440m)",
+     "note": "no run for 9361m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-02T12:49:10Z",
      "lastConclusion": "success",
@@ -2889,7 +3328,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T21:24:34Z",
+     "lastRunAt": "2026-11-08T23:47:29Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -2901,7 +3340,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:18:27Z",
+     "lastRunAt": "2026-11-09T00:19:44Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -2937,7 +3376,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:46:57Z",
+     "lastRunAt": "2026-11-09T00:06:40Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -2973,9 +3412,9 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T22:54:31Z",
+     "lastRunAt": "2026-11-09T00:08:35Z",
      "lastConclusion": null,
-     "lastEvent": "workflow_dispatch"
+     "lastEvent": "schedule"
     },
     {
      "name": "directive-now",
@@ -3009,7 +3448,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T19:51:08Z",
+     "lastRunAt": "2026-11-08T23:49:58Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -3057,7 +3496,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:09:04Z",
+     "lastRunAt": "2026-11-09T00:26:35Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     },
@@ -3153,7 +3592,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T19:50:04Z",
+     "lastRunAt": "2026-11-08T23:49:02Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
@@ -3249,7 +3688,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:21:43Z",
+     "lastRunAt": "2026-11-09T00:33:00Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -3316,349 +3755,48 @@
    ]
   },
   {
-   "name": "steem",
+   "name": "saos-desk",
    "private": false,
-   "pushedAt": "2026-11-08T23:24:08Z",
-   "health": "red",
+   "pushedAt": "2026-11-09T00:20:24Z",
+   "health": "green",
    "counts": {
-    "workflows": 10,
-    "green": 8,
+    "workflows": 0,
+    "green": 0,
     "amber": 0,
-    "red": 2
+    "red": 0
    },
-   "workflows": [
-    {
-     "name": "workflow-yaml-guard",
-     "state": "active",
-     "cron": null,
-     "health": "red",
-     "class": "failing",
-     "note": "6 consecutive failures",
-     "streak": 6,
-     "lastRunAt": "2026-10-28T21:35:28Z",
-     "lastConclusion": "failure",
-     "lastEvent": "pull_request"
-    },
-    {
-     "name": "gitleaks",
-     "state": "active",
-     "cron": null,
-     "health": "red",
-     "class": "failing",
-     "note": "3 consecutive failures",
-     "streak": 3,
-     "lastRunAt": "2026-10-28T21:35:28Z",
-     "lastConclusion": "failure",
-     "lastEvent": "pull_request"
-    },
-    {
-     "name": "cloud-heart",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-10-20T14:15:05Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "crown-vault-recovery",
-     "state": "active",
-     "cron": "19 5 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T11:56:25Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "engine-ci",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:24:10Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "engine-selftest",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:24:10Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "key-census-relay",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-10-29T10:23:00Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "key-census-relay-v2",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-06T12:49:37Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "vault-onekey-adopt",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-05T19:10:22Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "vault-onekey-verify",
-     "state": "active",
-     "cron": "40 6 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T13:50:28Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    }
-   ]
+   "workflows": []
   },
   {
-   "name": "saos-dex",
+   "name": "ops-intake",
    "private": false,
-   "pushedAt": "2026-11-08T23:22:57Z",
-   "health": "red",
+   "pushedAt": "2026-11-09T00:15:34Z",
+   "health": "green",
    "counts": {
-    "workflows": 16,
-    "green": 12,
-    "amber": 2,
-    "red": 2
+    "workflows": 1,
+    "green": 1,
+    "amber": 0,
+    "red": 0
    },
    "workflows": [
     {
-     "name": "llm-bridge",
+     "name": "intake",
      "state": "active",
-     "cron": null,
-     "health": "red",
-     "class": "failing",
-     "note": "4 consecutive failures",
-     "streak": 4,
-     "lastRunAt": "2026-10-13T01:14:24Z",
-     "lastConclusion": "failure",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "grid-trigger",
-     "state": "active",
-     "cron": null,
-     "health": "red",
-     "class": "failing",
-     "note": "6 consecutive failures",
-     "streak": 6,
-     "lastRunAt": "2026-10-13T01:14:26Z",
-     "lastConclusion": "failure",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "key-census-relay",
-     "state": "active",
-     "cron": null,
-     "health": "amber",
-     "class": "flaky",
-     "note": "last run failed (earlier succeeded)",
-     "streak": 1,
-     "lastRunAt": "2026-10-29T07:49:48Z",
-     "lastConclusion": "failure",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "key-census-relay-v2",
-     "state": "active",
-     "cron": null,
-     "health": "amber",
-     "class": "flaky",
-     "note": "last run failed (earlier succeeded)",
-     "streak": 1,
-     "lastRunAt": "2026-10-29T10:40:53Z",
-     "lastConclusion": "failure",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "arb-scan",
-     "state": "active",
-     "cron": "24,54 * * * *",
+     "cron": "*/30 * * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:50:41Z",
+     "lastRunAt": "2026-11-09T00:12:53Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
-    },
-    {
-     "name": "curate",
-     "state": "active",
-     "cron": "17 */6 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T21:59:14Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "dex-beat",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T18:12:14Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "dex-ci",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:51Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "dex-grid",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T18:58:43Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "dex-selftest",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:51Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "external-profit-publish",
-     "state": "active",
-     "cron": "43 */2 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T19:09:32Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "gitleaks-secret-scan",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:50Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
-    },
-    {
-     "name": "hive-heartbeat",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T18:12:15Z",
-     "lastConclusion": "success",
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "identity-guard",
-     "state": "active",
-     "cron": "53 7 * * 1",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:50Z",
-     "lastConclusion": "skipped",
-     "lastEvent": "push"
-    },
-    {
-     "name": "mm-supremacy",
-     "state": "active",
-     "cron": "37 5 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T12:08:12Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "workflow-yaml-guard",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:20:51Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
     }
    ]
   },
   {
    "name": "sovereign-executor",
    "private": false,
-   "pushedAt": "2026-11-08T23:09:07Z",
+   "pushedAt": "2026-11-09T00:10:13Z",
    "health": "green",
    "counts": {
     "workflows": 1,
@@ -3675,145 +3813,267 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:09:08Z",
+     "lastRunAt": "2026-11-09T00:10:15Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     }
    ]
   },
   {
-   "name": "GridWatch",
+   "name": "sovereign-runner-kit",
    "private": false,
-   "pushedAt": "2026-11-08T23:04:07Z",
+   "pushedAt": "2026-11-09T00:09:05Z",
    "health": "green",
    "counts": {
-    "workflows": 5,
-    "green": 5,
+    "workflows": 12,
+    "green": 12,
     "amber": 0,
     "red": 0
    },
    "workflows": [
     {
-     "name": "flow-map",
+     "name": "agent-shield",
      "state": "active",
-     "cron": null,
+     "cron": "26 6 * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-10-16T23:52:26Z",
+     "lastRunAt": "2026-11-08T13:43:21Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     },
     {
-     "name": "grid-watch",
+     "name": "beat-keepalive",
      "state": "active",
-     "cron": "23 */6 * * *",
+     "cron": "*/15 * * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:33:58Z",
+     "lastRunAt": "2026-11-09T00:39:40Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
     {
+     "name": "capability-gate",
+     "state": "active",
+     "cron": "53 7 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T14:33:46Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "deploy-gate",
+     "state": "active",
+     "cron": "11 6 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T13:14:36Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "device-lane",
+     "state": "active",
+     "cron": "53 */2 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-09T00:08:51Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
+     "name": "fleet-keeper",
+     "state": "active",
+     "cron": "17 */2 * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T22:00:37Z",
+     "lastConclusion": "success",
+     "lastEvent": "schedule"
+    },
+    {
      "name": "identity-guard",
      "state": "active",
-     "cron": null,
+     "cron": "13 7 * * 1",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:04:09Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
+     "lastRunAt": "2026-11-08T18:04:30Z",
+     "lastConclusion": "skipped",
+     "lastEvent": "schedule"
     },
     {
-     "name": "pages-build-deployment",
+     "name": "netrun-loop",
      "state": "active",
-     "cron": null,
+     "cron": "7,37 * * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-10-22T13:13:33Z",
+     "lastRunAt": "2026-11-08T22:27:20Z",
      "lastConclusion": "success",
-     "lastEvent": "dynamic"
+     "lastEvent": "schedule"
     },
     {
-     "name": "pages-deploy",
+     "name": "night-steward",
      "state": "active",
-     "cron": null,
+     "cron": "43 */2 * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:01:40Z",
+     "lastRunAt": "2026-11-09T00:00:26Z",
      "lastConclusion": "success",
-     "lastEvent": "push"
-    }
-   ]
-  },
-  {
-   "name": "roshpinacare-sys.github.io",
-   "private": false,
-   "pushedAt": "2026-11-08T23:04:06Z",
-   "health": "green",
-   "counts": {
-    "workflows": 4,
-    "green": 4,
-    "amber": 0,
-    "red": 0
-   },
-   "workflows": [
-    {
-     "name": "identity-guard",
-     "state": "active",
-     "cron": "13 8 * * 1",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:04:07Z",
-     "lastConclusion": "success",
-     "lastEvent": "push"
+     "lastEvent": "schedule"
     },
     {
-     "name": "pages-build-deployment",
+     "name": "registry-verify",
      "state": "active",
-     "cron": null,
+     "cron": "23 6 * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-10-26T16:13:33Z",
+     "lastRunAt": "2026-11-08T13:37:20Z",
      "lastConclusion": "success",
-     "lastEvent": "dynamic"
+     "lastEvent": "schedule"
     },
     {
-     "name": "pages-deploy",
+     "name": "scout-loop",
      "state": "active",
-     "cron": null,
+     "cron": "41 5 * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:01:29Z",
+     "lastRunAt": "2026-11-08T12:10:17Z",
      "lastConclusion": "success",
-     "lastEvent": "push"
+     "lastEvent": "schedule"
     },
     {
      "name": "swallow-watch",
      "state": "active",
-     "cron": "59 * * * *",
+     "cron": "47 * * * *",
      "health": "ok",
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T20:49:28Z",
+     "lastRunAt": "2026-11-09T00:06:59Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
+    }
+   ]
+  },
+  {
+   "name": "sovereign-lighthouse",
+   "private": false,
+   "pushedAt": "2026-11-08T23:42:03Z",
+   "health": "green",
+   "counts": {
+    "workflows": 3,
+    "green": 3,
+    "amber": 0,
+    "red": 0
+   },
+   "workflows": [
+    {
+     "name": "estate-redboard",
+     "state": "active",
+     "cron": "17,47 * * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T23:41:31Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "lighthouse-pulse",
+     "state": "active",
+     "cron": "13,43 * * * *",
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-11-08T23:41:33Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "pages-build-deployment",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-12T11:15:46Z",
+     "lastConclusion": "success",
+     "lastEvent": "dynamic"
+    }
+   ]
+  },
+  {
+   "name": "Defi",
+   "private": false,
+   "pushedAt": "2026-11-08T23:29:44Z",
+   "health": "green",
+   "counts": {
+    "workflows": 3,
+    "green": 3,
+    "amber": 0,
+    "red": 0
+   },
+   "workflows": [
+    {
+     "name": "canary",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-20T04:59:30Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "gitleaks-secret-scan",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-20T07:42:38Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
+    },
+    {
+     "name": "workflow-yaml-guard",
+     "state": "active",
+     "cron": null,
+     "health": "ok",
+     "class": null,
+     "note": "",
+     "streak": 0,
+     "lastRunAt": "2026-10-21T04:59:05Z",
+     "lastConclusion": "success",
+     "lastEvent": "workflow_dispatch"
     }
    ]
   },
@@ -4036,32 +4296,6 @@
    ]
   },
   {
-   "name": "private-276fc4a2",
-   "private": true,
-   "pushedAt": "2026-11-08T22:57:45Z",
-   "health": "green",
-   "counts": {
-    "workflows": 0,
-    "green": 0,
-    "amber": 0,
-    "red": 0
-   },
-   "workflows": []
-  },
-  {
-   "name": "saos-desk",
-   "private": false,
-   "pushedAt": "2026-11-08T22:57:06Z",
-   "health": "green",
-   "counts": {
-    "workflows": 0,
-    "green": 0,
-    "amber": 0,
-    "red": 0
-   },
-   "workflows": []
-  },
-  {
    "name": "ops-forge",
    "private": false,
    "pushedAt": "2026-11-08T22:46:33Z",
@@ -4082,214 +4316,6 @@
      "note": "",
      "streak": 0,
      "lastRunAt": "2026-11-08T22:44:47Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    }
-   ]
-  },
-  {
-   "name": "sovereign-lighthouse",
-   "private": false,
-   "pushedAt": "2026-11-08T22:29:42Z",
-   "health": "green",
-   "counts": {
-    "workflows": 3,
-    "green": 3,
-    "amber": 0,
-    "red": 0
-   },
-   "workflows": [
-    {
-     "name": "estate-redboard",
-     "state": "active",
-     "cron": "17,47 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T22:29:36Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "lighthouse-pulse",
-     "state": "active",
-     "cron": "13,43 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T22:29:06Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "pages-build-deployment",
-     "state": "active",
-     "cron": null,
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-10-12T11:15:46Z",
-     "lastConclusion": "success",
-     "lastEvent": "dynamic"
-    }
-   ]
-  },
-  {
-   "name": "sovereign-runner-kit",
-   "private": false,
-   "pushedAt": "2026-11-08T22:27:26Z",
-   "health": "green",
-   "counts": {
-    "workflows": 12,
-    "green": 12,
-    "amber": 0,
-    "red": 0
-   },
-   "workflows": [
-    {
-     "name": "agent-shield",
-     "state": "active",
-     "cron": "26 6 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T13:43:21Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "beat-keepalive",
-     "state": "active",
-     "cron": "*/15 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T23:08:41Z",
-     "lastConclusion": null,
-     "lastEvent": "workflow_dispatch"
-    },
-    {
-     "name": "capability-gate",
-     "state": "active",
-     "cron": "53 7 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T14:33:46Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "deploy-gate",
-     "state": "active",
-     "cron": "11 6 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T13:14:36Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "device-lane",
-     "state": "active",
-     "cron": "53 */2 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T21:13:16Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "fleet-keeper",
-     "state": "active",
-     "cron": "17 */2 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T22:00:37Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "identity-guard",
-     "state": "active",
-     "cron": "13 7 * * 1",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T18:04:30Z",
-     "lastConclusion": "skipped",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "netrun-loop",
-     "state": "active",
-     "cron": "7,37 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T22:27:20Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "night-steward",
-     "state": "active",
-     "cron": "43 */2 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T19:07:49Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "registry-verify",
-     "state": "active",
-     "cron": "23 6 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T13:37:20Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "scout-loop",
-     "state": "active",
-     "cron": "41 5 * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T12:10:17Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    },
-    {
-     "name": "swallow-watch",
-     "state": "active",
-     "cron": "47 * * * *",
-     "health": "ok",
-     "class": null,
-     "note": "",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T20:46:13Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     }
@@ -4325,7 +4351,7 @@
      "cron": "23 5 * * 1",
      "health": "amber",
      "class": "stale",
-     "note": "no run for 9236m (cadence ~1440m)",
+     "note": "no run for 9309m (cadence ~1440m)",
      "streak": 0,
      "lastRunAt": "2026-11-02T13:40:29Z",
      "lastConclusion": "success",
@@ -4425,7 +4451,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:23:55Z",
+     "lastRunAt": "2026-11-09T00:24:37Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -4488,32 +4514,6 @@
      "note": "",
      "streak": 0,
      "lastRunAt": "2026-11-08T22:45:07Z",
-     "lastConclusion": "success",
-     "lastEvent": "schedule"
-    }
-   ]
-  },
-  {
-   "name": "ops-intake",
-   "private": false,
-   "pushedAt": "2026-11-08T20:41:20Z",
-   "health": "amber",
-   "counts": {
-    "workflows": 1,
-    "green": 0,
-    "amber": 1,
-    "red": 0
-   },
-   "workflows": [
-    {
-     "name": "intake",
-     "state": "active",
-     "cron": "*/30 * * * *",
-     "health": "amber",
-     "class": "stale",
-     "note": "no run for 178m (cadence ~30m)",
-     "streak": 0,
-     "lastRunAt": "2026-11-08T20:38:39Z",
      "lastConclusion": "success",
      "lastEvent": "schedule"
     }
@@ -4649,7 +4649,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:31:51Z",
+     "lastRunAt": "2026-11-09T00:37:40Z",
      "lastConclusion": null,
      "lastEvent": "workflow_dispatch"
     },
@@ -4673,7 +4673,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:18:49Z",
+     "lastRunAt": "2026-11-09T00:37:47Z",
      "lastConclusion": "success",
      "lastEvent": "workflow_dispatch"
     }
@@ -5173,7 +5173,7 @@
      "class": null,
      "note": "",
      "streak": 0,
-     "lastRunAt": "2026-11-08T23:30:54Z",
+     "lastRunAt": "2026-11-09T00:37:46Z",
      "lastConclusion": null,
      "lastEvent": "repository_dispatch"
     },
@@ -5637,10 +5637,29 @@
  "remediations": [],
  "apiQuota": {
   "limit": 5000,
-  "remaining": 3372,
-  "resetAt": "2026-11-08T23:51:46.000Z"
+  "remaining": 2864,
+  "resetAt": "2026-11-09T00:52:11.000Z"
  },
  "cronCache": {
+  "roshpinacare-sys.github.io::.github/workflows/identity-guard.yml": {
+   "sha": "3f3b743e54624db66c7a3573b7a065a66c160225",
+   "cron": "13 8 * * 1",
+   "dispatchable": true
+  },
+  "roshpinacare-sys.github.io::.github/workflows/pages-deploy.yml": {
+   "sha": "1f28f3528a183339e684d40a81f739ea31d2d162",
+   "cron": null,
+   "dispatchable": true
+  },
+  "roshpinacare-sys.github.io::.github/workflows/swallow-watch.yml": {
+   "sha": "7fa96ee18556d12a4b9ae2059689833cbefd420a",
+   "cron": "59 * * * *",
+   "dispatchable": true
+  },
+  "roshpinacare-sys.github.io::dynamic/pages/pages-build-deployment": {
+   "cron": null,
+   "dispatchable": true
+  },
   "Console::.github/workflows/agent-verify.yml": {
    "sha": "b700905e5d8e74dd96fad6a7a58abcf636038602",
    "cron": "58 */4 * * *",
@@ -5767,6 +5786,101 @@
   },
   "Console::dynamic/pages/pages-build-deployment": {
    "cron": null
+  },
+  "Pulse::.github/workflows/heartbeat.yml": {
+   "sha": "fdbab416b40c4a29b23c8726dfdb0a327973b2fa",
+   "cron": "*/30 * * * *",
+   "dispatchable": true
+  },
+  "Pulse::.github/workflows/identity-guard.yml": {
+   "sha": "cf3a4eb2a15ef2aa50618c1ffa11c98d72a018b5",
+   "cron": null,
+   "dispatchable": false
+  },
+  "Pulse::.github/workflows/pages-deploy.yml": {
+   "sha": "1f28f3528a183339e684d40a81f739ea31d2d162",
+   "cron": null,
+   "dispatchable": true
+  },
+  "Pulse::.github/workflows/sovereign-voice.yml": {
+   "sha": "7f7f1125facfe16c3d7cc25021121a2186812857",
+   "cron": "*/30 * * * *",
+   "dispatchable": true
+  },
+  "Pulse::dynamic/pages/pages-build-deployment": {
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/cloud-heart.yml": {
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/gitleaks.yml": {
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/workflow-yaml-guard.yml": {
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/key-census-relay.yml": {
+   "sha": "033a5fe0ad858fc93e6d3136ea341ddbb04eb7fd",
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/crown-vault-recovery.yml": {
+   "sha": "d014c150b805791724797288430df1fee899ae2b",
+   "cron": "19 5 * * *",
+   "dispatchable": true
+  },
+  "steem::.github/workflows/key-census-relay-v2.yml": {
+   "sha": "a45cdf40bb51c5e90cd9f137e1b18f863190171b",
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/vault-onekey-adopt.yml": {
+   "sha": "837cd6f51def51cd227dc740f8cbb738dbb7b5ab",
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/vault-onekey-verify.yml": {
+   "sha": "cac78cf236ba990f37660ff2d3454ac8171aa39b",
+   "cron": "40 6 * * *",
+   "dispatchable": true
+  },
+  "steem::.github/workflows/engine-selftest.yml": {
+   "sha": "1c56319ac96d62042939fe52f7f6d874e7d4166d",
+   "cron": null,
+   "dispatchable": true
+  },
+  "steem::.github/workflows/engine-ci.yml": {
+   "sha": "972fd7225105cbccb3a4f5aab3a1752ea414acb4",
+   "cron": null,
+   "dispatchable": true
+  },
+  "GridWatch::.github/workflows/flow-map.yml": {
+   "sha": "24a8917abbcdb828f0d7298c741d69ce52304fca",
+   "cron": null,
+   "dispatchable": true
+  },
+  "GridWatch::.github/workflows/grid-watch.yml": {
+   "sha": "330e35af1b9f84fcd0d32177ea993b96a2f51515",
+   "cron": "23 */6 * * *",
+   "dispatchable": true
+  },
+  "GridWatch::.github/workflows/identity-guard.yml": {
+   "sha": "cf3a4eb2a15ef2aa50618c1ffa11c98d72a018b5",
+   "cron": null,
+   "dispatchable": false
+  },
+  "GridWatch::.github/workflows/pages-deploy.yml": {
+   "sha": "d83731c47ace07ca92f05f58a8ed27243e5ae9e1",
+   "cron": null,
+   "dispatchable": true
+  },
+  "GridWatch::dynamic/pages/pages-build-deployment": {
+   "cron": null,
+   "dispatchable": true
   },
   "Domain::.github/workflows/adsmarket-panel.yml": {
    "sha": "1329f1b7454c9304be09a6ebfc08603aed9c1170",
@@ -6268,30 +6382,6 @@
    "cron": "20 6 * * 0",
    "dispatchable": true
   },
-  "Pulse::.github/workflows/heartbeat.yml": {
-   "sha": "fdbab416b40c4a29b23c8726dfdb0a327973b2fa",
-   "cron": "*/30 * * * *",
-   "dispatchable": true
-  },
-  "Pulse::.github/workflows/identity-guard.yml": {
-   "sha": "cf3a4eb2a15ef2aa50618c1ffa11c98d72a018b5",
-   "cron": null,
-   "dispatchable": false
-  },
-  "Pulse::.github/workflows/pages-deploy.yml": {
-   "sha": "1f28f3528a183339e684d40a81f739ea31d2d162",
-   "cron": null,
-   "dispatchable": true
-  },
-  "Pulse::.github/workflows/sovereign-voice.yml": {
-   "sha": "7f7f1125facfe16c3d7cc25021121a2186812857",
-   "cron": "*/30 * * * *",
-   "dispatchable": true
-  },
-  "Pulse::dynamic/pages/pages-build-deployment": {
-   "cron": null,
-   "dispatchable": true
-  },
   "Autonomy::.github/workflows/agent-9-clock-guard.yml": {
    "sha": "12e4584f8cd46fb82a234c72ee7af26fda35457d",
    "cron": "23 * * * *",
@@ -6587,18 +6677,83 @@
    "cron": "19 */2 * * *",
    "dispatchable": true
   },
-  "Defi::.github/workflows/canary.yml": {
-   "sha": "0a0ecd028816bfe721d107b34bd8c966812d8bab",
+  "saos-dex::.github/workflows/arb-scan.yml": {
+   "sha": "a11004c5469e321f38fc9b41ed14f4d13bb613ac",
+   "cron": "24,54 * * * *",
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/ci.yml": {
+   "sha": "061998cb8bc4e3877c2227676514bb197b40e822",
    "cron": null,
    "dispatchable": true
   },
-  "Defi::.github/workflows/gitleaks.yml": {
-   "sha": "834004d0b501f53045a1b79eb36c04bc4d482bac",
+  "saos-dex::.github/workflows/curate.yml": {
+   "sha": "50234a6b865327999f4c9b94938c8077f4ab2566",
+   "cron": "17 */6 * * *",
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/dex-beat.yml": {
+   "sha": "a08c1d3d024e1b907b12a7aa9f02a15eb88929e1",
    "cron": null,
    "dispatchable": true
   },
-  "Defi::.github/workflows/workflow-yaml-guard.yml": {
-   "sha": "9a604536071afa9196eec586e870b7b3dc3313a1",
+  "saos-dex::.github/workflows/dex-grid.yml": {
+   "sha": "4832d14ec208574d2b4c45e5e94cbcfd4015aa96",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/external-profit-publish.yml": {
+   "sha": "e3d4ad89ff631615deedb8b75cbdee98276b40b3",
+   "cron": "43 */2 * * *",
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/gitleaks.yml": {
+   "sha": "f7f5e65980cc8a81501bc541b3ae86344b68bebe",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/grid-trigger.yml": {
+   "sha": "43bc07b27616f758210906d03c7d0cf69b2eec10",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/hive-heartbeat.yml": {
+   "sha": "d1c885f34d363c36c8144771460caea7ca0ba9d6",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/identity-guard.yml": {
+   "sha": "bc19b2495e06b313dfe23f2a0d1821200ff94ced",
+   "cron": "53 7 * * 1",
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/key-census-relay-v2.yml": {
+   "sha": "a45cdf40bb51c5e90cd9f137e1b18f863190171b",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/key-census-relay.yml": {
+   "sha": "033a5fe0ad858fc93e6d3136ea341ddbb04eb7fd",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/llm-bridge.yml": {
+   "sha": "514a009b7263ca17b75ade3ae3fca81b1212f15b",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/mm-supremacy.yml": {
+   "sha": "313f8ed3f0931d92897da47ed80641ed007b7a0f",
+   "cron": "37 5 * * *",
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/selftest.yml": {
+   "sha": "37fbdd468acc2dbb15c61eb1f261b18c1a1d1b34",
+   "cron": null,
+   "dispatchable": true
+  },
+  "saos-dex::.github/workflows/workflow-yaml-guard.yml": {
+   "sha": "823ae27de766e1d861c1380854e8879eb325355b",
    "cron": null,
    "dispatchable": true
   },
@@ -6967,131 +7122,9 @@
    "cron": null,
    "dispatchable": true
   },
-  "steem::.github/workflows/cloud-heart.yml": {
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/gitleaks.yml": {
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/workflow-yaml-guard.yml": {
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/key-census-relay.yml": {
-   "sha": "033a5fe0ad858fc93e6d3136ea341ddbb04eb7fd",
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/crown-vault-recovery.yml": {
-   "sha": "d014c150b805791724797288430df1fee899ae2b",
-   "cron": "19 5 * * *",
-   "dispatchable": true
-  },
-  "steem::.github/workflows/key-census-relay-v2.yml": {
-   "sha": "a45cdf40bb51c5e90cd9f137e1b18f863190171b",
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/vault-onekey-adopt.yml": {
-   "sha": "837cd6f51def51cd227dc740f8cbb738dbb7b5ab",
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/vault-onekey-verify.yml": {
-   "sha": "cac78cf236ba990f37660ff2d3454ac8171aa39b",
-   "cron": "40 6 * * *",
-   "dispatchable": true
-  },
-  "steem::.github/workflows/engine-selftest.yml": {
-   "sha": "1c56319ac96d62042939fe52f7f6d874e7d4166d",
-   "cron": null,
-   "dispatchable": true
-  },
-  "steem::.github/workflows/engine-ci.yml": {
-   "sha": "972fd7225105cbccb3a4f5aab3a1752ea414acb4",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/arb-scan.yml": {
-   "sha": "a11004c5469e321f38fc9b41ed14f4d13bb613ac",
-   "cron": "24,54 * * * *",
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/ci.yml": {
-   "sha": "061998cb8bc4e3877c2227676514bb197b40e822",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/curate.yml": {
-   "sha": "50234a6b865327999f4c9b94938c8077f4ab2566",
-   "cron": "17 */6 * * *",
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/dex-beat.yml": {
-   "sha": "a08c1d3d024e1b907b12a7aa9f02a15eb88929e1",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/dex-grid.yml": {
-   "sha": "4832d14ec208574d2b4c45e5e94cbcfd4015aa96",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/external-profit-publish.yml": {
-   "sha": "e3d4ad89ff631615deedb8b75cbdee98276b40b3",
-   "cron": "43 */2 * * *",
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/gitleaks.yml": {
-   "sha": "f7f5e65980cc8a81501bc541b3ae86344b68bebe",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/grid-trigger.yml": {
-   "sha": "43bc07b27616f758210906d03c7d0cf69b2eec10",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/hive-heartbeat.yml": {
-   "sha": "d1c885f34d363c36c8144771460caea7ca0ba9d6",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/identity-guard.yml": {
-   "sha": "bc19b2495e06b313dfe23f2a0d1821200ff94ced",
-   "cron": "53 7 * * 1",
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/key-census-relay-v2.yml": {
-   "sha": "a45cdf40bb51c5e90cd9f137e1b18f863190171b",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/key-census-relay.yml": {
-   "sha": "033a5fe0ad858fc93e6d3136ea341ddbb04eb7fd",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/llm-bridge.yml": {
-   "sha": "514a009b7263ca17b75ade3ae3fca81b1212f15b",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/mm-supremacy.yml": {
-   "sha": "313f8ed3f0931d92897da47ed80641ed007b7a0f",
-   "cron": "37 5 * * *",
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/selftest.yml": {
-   "sha": "37fbdd468acc2dbb15c61eb1f261b18c1a1d1b34",
-   "cron": null,
-   "dispatchable": true
-  },
-  "saos-dex::.github/workflows/workflow-yaml-guard.yml": {
-   "sha": "823ae27de766e1d861c1380854e8879eb325355b",
-   "cron": null,
+  "ops-intake::.github/workflows/intake.yml": {
+   "sha": "d9fa6439770c0fce0781e4cfccceff185e79a7e3",
+   "cron": "*/30 * * * *",
    "dispatchable": true
   },
   "sovereign-executor::.github/workflows/fleet-beat.yml": {
@@ -7099,46 +7132,91 @@
    "cron": "*/15 * * * *",
    "dispatchable": true
   },
-  "GridWatch::.github/workflows/flow-map.yml": {
-   "sha": "24a8917abbcdb828f0d7298c741d69ce52304fca",
+  "sovereign-runner-kit::.github/workflows/agent-shield.yml": {
+   "sha": "7ed011eb71bca36d43672abe6fac97b475993b45",
+   "cron": "26 6 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/capability-gate.yml": {
+   "sha": "467f60c0bbbf44eb39367d6329a11020ef3656ef",
+   "cron": "53 7 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/deploy-gate.yml": {
+   "sha": "fd9619e0b94a5ba35e30e6877078579be2a8fd11",
+   "cron": "11 6 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/device-lane.yml": {
+   "sha": "c5960c783cd8d7de5218c61834ccf421434f82d0",
+   "cron": "53 */2 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/fleet-keeper.yml": {
+   "sha": "8bae640b38633bf45a4fdef3bca3c088d9c3fb49",
+   "cron": "17 */2 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/identity-guard.yml": {
+   "sha": "40b1c02724964cbaea559cbafd5d57175a7fbd55",
+   "cron": "13 7 * * 1",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/keepalive.yml": {
+   "sha": "372781ad6d18a5b7e05f12e932ace7a56d1da74b",
+   "cron": "*/15 * * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/netrun-loop.yml": {
+   "sha": "9eabbca96153d6056a370b91ed7884b657c21fb2",
+   "cron": "7,37 * * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/night-steward.yml": {
+   "sha": "21a88c0aeb90fc93a91c94bd54e17ba7bc1651b8",
+   "cron": "43 */2 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/registry-verify.yml": {
+   "sha": "c48b9de2366644f160ae455291bfed98af77c79c",
+   "cron": "23 6 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/scout-loop.yml": {
+   "sha": "3a16d4fec4753754785cb3d1441bde25ecbcb633",
+   "cron": "41 5 * * *",
+   "dispatchable": true
+  },
+  "sovereign-runner-kit::.github/workflows/swallow-watch.yml": {
+   "sha": "9ed2a330d5b7022095dc16140afbbb8fa178b28f",
+   "cron": "47 * * * *",
+   "dispatchable": true
+  },
+  "sovereign-lighthouse::.github/workflows/estate-redboard.yml": {
+   "sha": "1a8ed182246840fdbe93c1c56f283a74f0fa0011",
+   "cron": "17,47 * * * *",
+   "dispatchable": true
+  },
+  "sovereign-lighthouse::.github/workflows/lighthouse-pulse.yml": {
+   "sha": "772e3f7a3ed84aa45cd73a41c5c39d9cbc1988c4",
+   "cron": "13,43 * * * *",
+   "dispatchable": true
+  },
+  "sovereign-lighthouse::dynamic/pages/pages-build-deployment": {
+   "cron": null
+  },
+  "Defi::.github/workflows/canary.yml": {
+   "sha": "0a0ecd028816bfe721d107b34bd8c966812d8bab",
    "cron": null,
    "dispatchable": true
   },
-  "GridWatch::.github/workflows/grid-watch.yml": {
-   "sha": "330e35af1b9f84fcd0d32177ea993b96a2f51515",
-   "cron": "23 */6 * * *",
-   "dispatchable": true
-  },
-  "GridWatch::.github/workflows/identity-guard.yml": {
-   "sha": "cf3a4eb2a15ef2aa50618c1ffa11c98d72a018b5",
-   "cron": null,
-   "dispatchable": false
-  },
-  "GridWatch::.github/workflows/pages-deploy.yml": {
-   "sha": "d83731c47ace07ca92f05f58a8ed27243e5ae9e1",
+  "Defi::.github/workflows/gitleaks.yml": {
+   "sha": "834004d0b501f53045a1b79eb36c04bc4d482bac",
    "cron": null,
    "dispatchable": true
   },
-  "GridWatch::dynamic/pages/pages-build-deployment": {
-   "cron": null,
-   "dispatchable": true
-  },
-  "roshpinacare-sys.github.io::.github/workflows/identity-guard.yml": {
-   "sha": "3f3b743e54624db66c7a3573b7a065a66c160225",
-   "cron": "13 8 * * 1",
-   "dispatchable": true
-  },
-  "roshpinacare-sys.github.io::.github/workflows/pages-deploy.yml": {
-   "sha": "1f28f3528a183339e684d40a81f739ea31d2d162",
-   "cron": null,
-   "dispatchable": true
-  },
-  "roshpinacare-sys.github.io::.github/workflows/swallow-watch.yml": {
-   "sha": "7fa96ee18556d12a4b9ae2059689833cbefd420a",
-   "cron": "59 * * * *",
-   "dispatchable": true
-  },
-  "roshpinacare-sys.github.io::dynamic/pages/pages-build-deployment": {
+  "Defi::.github/workflows/workflow-yaml-guard.yml": {
+   "sha": "9a604536071afa9196eec586e870b7b3dc3313a1",
    "cron": null,
    "dispatchable": true
   },
@@ -7227,79 +7305,6 @@
    "cron": "*/30 * * * *",
    "dispatchable": true
   },
-  "sovereign-lighthouse::.github/workflows/estate-redboard.yml": {
-   "sha": "1a8ed182246840fdbe93c1c56f283a74f0fa0011",
-   "cron": "17,47 * * * *",
-   "dispatchable": true
-  },
-  "sovereign-lighthouse::.github/workflows/lighthouse-pulse.yml": {
-   "sha": "772e3f7a3ed84aa45cd73a41c5c39d9cbc1988c4",
-   "cron": "13,43 * * * *",
-   "dispatchable": true
-  },
-  "sovereign-lighthouse::dynamic/pages/pages-build-deployment": {
-   "cron": null
-  },
-  "sovereign-runner-kit::.github/workflows/agent-shield.yml": {
-   "sha": "7ed011eb71bca36d43672abe6fac97b475993b45",
-   "cron": "26 6 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/capability-gate.yml": {
-   "sha": "467f60c0bbbf44eb39367d6329a11020ef3656ef",
-   "cron": "53 7 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/deploy-gate.yml": {
-   "sha": "fd9619e0b94a5ba35e30e6877078579be2a8fd11",
-   "cron": "11 6 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/device-lane.yml": {
-   "sha": "c5960c783cd8d7de5218c61834ccf421434f82d0",
-   "cron": "53 */2 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/fleet-keeper.yml": {
-   "sha": "8bae640b38633bf45a4fdef3bca3c088d9c3fb49",
-   "cron": "17 */2 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/identity-guard.yml": {
-   "sha": "40b1c02724964cbaea559cbafd5d57175a7fbd55",
-   "cron": "13 7 * * 1",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/keepalive.yml": {
-   "sha": "372781ad6d18a5b7e05f12e932ace7a56d1da74b",
-   "cron": "*/15 * * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/netrun-loop.yml": {
-   "sha": "9eabbca96153d6056a370b91ed7884b657c21fb2",
-   "cron": "7,37 * * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/night-steward.yml": {
-   "sha": "21a88c0aeb90fc93a91c94bd54e17ba7bc1651b8",
-   "cron": "43 */2 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/registry-verify.yml": {
-   "sha": "c48b9de2366644f160ae455291bfed98af77c79c",
-   "cron": "23 6 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/scout-loop.yml": {
-   "sha": "3a16d4fec4753754785cb3d1441bde25ecbcb633",
-   "cron": "41 5 * * *",
-   "dispatchable": true
-  },
-  "sovereign-runner-kit::.github/workflows/swallow-watch.yml": {
-   "sha": "9ed2a330d5b7022095dc16140afbbb8fa178b28f",
-   "cron": "47 * * * *",
-   "dispatchable": true
-  },
   "giant::.github/workflows/architect-daemon.yml": {
    "sha": "87b3115a729ee460711c7e87959495a2a19877bc",
    "cron": "*/30 * * * *",
@@ -7360,11 +7365,6 @@
   "fleet-economy::.github/workflows/receipts-guard.yml": {
    "sha": "d028a3b473d3e5026486a6403b1eadc98031cdea",
    "cron": "*/15 * * * *",
-   "dispatchable": true
-  },
-  "ops-intake::.github/workflows/intake.yml": {
-   "sha": "d9fa6439770c0fce0781e4cfccceff185e79a7e3",
-   "cron": "*/30 * * * *",
    "dispatchable": true
   },
   "roshpina::.github/workflows/controls-audit.yml": {
